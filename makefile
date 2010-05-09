@@ -18,7 +18,7 @@ CFLAGS   += -fmerge-all-constants -fstrict-overflow
 CFLAGS   += -frename-registers -fPIC -fno-common
 LDFLAGS  := -O1 -shared
 
-src      := endian.c hardtick.c rotate.c
+src      := 
 obj      := $(src:.c=.o)
 
 clean:

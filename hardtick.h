@@ -6,7 +6,7 @@
 #include <time.h>
 #include <unistd.h>
 
-extern inline uint64_t hardtick() {
+inline uint64_t hardtick() {
 	uint64_t ticks;
 
 /* x86 */

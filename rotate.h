@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-extern inline uint8_t rotl8(uint8_t x, uint8_t s) {
+inline uint8_t rotl8(uint8_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x << s | x >> sizeof x * 8 - s;
 	else {
@@ -20,7 +20,7 @@ extern inline uint8_t rotl8(uint8_t x, uint8_t s) {
 	}
 }
 
-extern inline uint16_t rotl16(uint16_t x, uint8_t s) {
+inline uint16_t rotl16(uint16_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x << s | x >> sizeof x * 8 - s;
 	else {
@@ -36,7 +36,7 @@ extern inline uint16_t rotl16(uint16_t x, uint8_t s) {
 	}
 }
 
-extern inline uint32_t rotl32(uint32_t x, uint8_t s) {
+inline uint32_t rotl32(uint32_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x << s | x >> sizeof x * 8 - s;
 	else {
@@ -52,7 +52,7 @@ extern inline uint32_t rotl32(uint32_t x, uint8_t s) {
 	}
 }
 
-extern inline uint64_t rotl64(uint64_t x, uint8_t s) {
+inline uint64_t rotl64(uint64_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x << s | x >> sizeof x * 8 - s;
 	else {
@@ -68,7 +68,7 @@ extern inline uint64_t rotl64(uint64_t x, uint8_t s) {
 	}
 }
 
-extern inline uint8_t rotr8(uint8_t x, uint8_t s) {
+inline uint8_t rotr8(uint8_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x >> s | x << sizeof x * 8 - s;
 	else {
@@ -84,7 +84,7 @@ extern inline uint8_t rotr8(uint8_t x, uint8_t s) {
 	}
 }
 
-extern inline uint16_t rotr16(uint16_t x, uint8_t s) {
+inline uint16_t rotr16(uint16_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x >> s | x << sizeof x * 8 - s;
 	else {
@@ -100,7 +100,7 @@ extern inline uint16_t rotr16(uint16_t x, uint8_t s) {
 	}
 }
 
-extern inline uint32_t rotr32(uint32_t x, uint8_t s) {
+inline uint32_t rotr32(uint32_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x >> s | x << sizeof x * 8 - s;
 	else {
@@ -116,7 +116,7 @@ extern inline uint32_t rotr32(uint32_t x, uint8_t s) {
 	}
 }
 
-extern inline uint64_t rotr64(uint64_t x, uint8_t s) {
+inline uint64_t rotr64(uint64_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x >> s | x << sizeof x * 8 - s;
 	else {
