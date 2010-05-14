@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
+#include "endian.h"
 #include "hardtick.h"
 
 #include "unique.h"
@@ -54,12 +55,11 @@ bool unique(uint64_t id[restrict 4]) {
 		return false;
 
 	/* TAI in nanoseconds */
-	id[0] =
-		(now.tv_sec + TAI_OFFSET) * UINT64_C(1000000000) +
-		now.tv_nsec;
+	id[0] = tobe64((now.tv_sec + TAI_OFFSET) * UINT64_C(1000000000) +
+		now.tv_nsec);
 
 	/* CPU cycle counter */
-	id[1] = hardtick();
+	id[1] = tobe64(hardtick());
 
 	return true;
 }
