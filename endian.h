@@ -10,13 +10,15 @@
 
 #include <stdint.h>
 
+#include "builtin.h"
+
 #undef BIG_ENDIAN
 #undef LITTLE_ENDIAN
 #undef BYTE_ORDER
 
 #define BIG_ENDIAN 4321
 #define LITTLE_ENDIAN 1234
-#define BYTE_ORDER BIG_ENDIAN
+#define BYTE_ORDER LITTLE_ENDIAN
 
 /**
  * \brief Swap octets of a 16bit integer.
@@ -37,7 +39,7 @@
  * \return Swapped integer.
  */
 #define swap32(x) \
-	(__builtin_constant_p(x) ? \
+	(constant_p(x) ? \
 		((x) & UINT32_C(0xff000000)) >> 24 | \
 		((x) & UINT32_C(0x00ff0000)) >>  8 | \
 		((x) & UINT32_C(0x0000ff00)) <<  8 | \
@@ -52,7 +54,7 @@
  * \return Swapped integer.
  */
 #define swap64(x) \
-	(__builtin_constant_p(x) ? \
+	(constant_p(x) ? \
 			((x) & UINT64_C(0xff00000000000000)) >> 56 | \
 			((x) & UINT64_C(0x00ff000000000000)) >> 40 | \
 			((x) & UINT64_C(0x0000ff0000000000)) >> 24 | \
