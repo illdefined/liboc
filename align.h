@@ -1,11 +1,11 @@
 #pragma once
-#ifndef OC_VARIABLE_H
-#define OC_VARIABLE_H
+#ifndef OC_ALIGN_H
+#define OC_ALIGN_H
 
 /**
  * \file
  *
- * \brief Extended variable attributes.
+ * \brief Alignment attributes.
  */
 
 /**
