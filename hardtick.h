@@ -2,10 +2,21 @@
 #ifndef OC_HARDTICK_H
 #define OC_HARDTICK_H
 
+/**
+ * \file
+ *
+ * \brief Hardware tick counter functions.
+ */
+
 #include <stdint.h>
 #include <time.h>
 #include <unistd.h>
 
+/**
+ * \brief Read hardware tick counter.
+ *
+ * \return Current value of hardware tick counter.
+ */
 inline uint64_t hardtick() {
 	uint64_t ticks;
 
