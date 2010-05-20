@@ -17,7 +17,7 @@ struct skein {
 };
 
 void skein_init(struct skein *restrict);
-void skein_feed(struct skein *restrict, const uint8_t *restrict __aligned(sizeof (uint64_t)), size_t);
+void skein_feed(struct skein *restrict, const uint8_t *restrict, size_t);
 void skein_plug(struct skein *restrict, uint64_t[restrict 4]);
 
 void skein(const uint64_t[restrict 4], uint64_t[restrict 4]);

@@ -38,7 +38,7 @@ __flatten void skein_init(struct skein *restrict ctx) {
  * \param data Data to hash.
  * \param size Size of data.
  */
-__flatten void skein_feed(struct skein *restrict ctx, const uint8_t *restrict data __aligned(sizeof (uint64_t)), size_t size) {
+__flatten void skein_feed(struct skein *restrict ctx, const uint8_t *restrict data, size_t size) {
 }
 
 /**
@@ -47,7 +47,7 @@ __flatten void skein_feed(struct skein *restrict ctx, const uint8_t *restrict da
  * \param ctx  Skein context.
  * \param hash Buffer to hold hash.
  */
-__flatten void skein_plug(struct skein *restrict ctx, uint64_t[restrict 4]) {
+__flatten void skein_plug(struct skein *restrict ctx, uint64_t hash[restrict 4]) {
 }
 
 /**
@@ -56,10 +56,10 @@ __flatten void skein_plug(struct skein *restrict ctx, uint64_t[restrict 4]) {
  * \param block Data block to hash.
  * \param hash  Buffer to hold hash.
  */
-__flatten void skein(const uint64_t block[restrict 4], uint64_t hash[restrict 4]) {
+void skein(const uint64_t block[restrict 4], uint64_t hash[restrict 4]) {
 	struct skein ctx;
 
 	skein_init(&ctx);
-	skein_feed(&ctx, (const uint8_t *) block);
+	skein_feed(&ctx, (const uint8_t *) block, sizeof block);
 	skein_plug(&ctx, hash);
 }
