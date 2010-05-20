@@ -19,7 +19,7 @@
  *
  * \return Current value of hardware tick counter.
  */
-inline __check uint64_t hardtick() {
+inline __check uint64_t hardtick(void) {
 	uint64_t ticks;
 
 /* x86 */
