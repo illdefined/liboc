@@ -1,3 +1,9 @@
+/**
+ * \file
+ *
+ * \brief Compile‐time byte‐order tests
+ */
+
 #include <stdint.h>
 
 uint16_t be[] = {
