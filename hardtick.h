@@ -5,7 +5,7 @@
 /**
  * \file
  *
- * \brief Hardware tick counter functions.
+ * \brief Hardware tick counter.
  */
 
 #include <stdint.h>
