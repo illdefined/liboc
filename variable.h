@@ -16,7 +16,7 @@
  * \param bound Boundary to align to.
  *
  * A variable declared \c __aligned will be allocated on the boundary
- * specified by \p bound.
+ * specified by \a bound.
  */
 
 /**
