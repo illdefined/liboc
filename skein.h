@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-#include "variable.h"
+#include "align.h"
 
 /**
  * \brief Skein context structure.
@@ -20,6 +20,6 @@ void skein_init(struct skein *restrict);
 void skein_feed(struct skein *restrict, const uint8_t *restrict, size_t);
 void skein_plug(struct skein *restrict, uint64_t[restrict 4]);
 
-void skein(const uint64_t[restrict 4], uint64_t[restrict 4]);
+void skein(uint64_t[restrict 4], const uint8_t *restrict, size_t);
 
 #endif /* OC_SKEIN_H */
