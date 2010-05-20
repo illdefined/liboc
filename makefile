@@ -21,6 +21,18 @@ LDFLAGS  := -O1 -shared
 src      := skein.c unique.c
 obj      := $(src:.c=.o)
 
+check:
+	sparse $(CPPFLAGS) \
+		-gcc-base-dir "$$($(CC) -print-search-dirs | awk '/^install: / { print $$2 }')" \
+		-ftabstop=4 \
+		-Wdefault-bitfield-sign \
+		-Wparen-string \
+		-Wptr-subtraction-blows \
+		-Wreturn-void \
+		-Wshadow \
+		-Wtypesign \
+		$(src)
+
 clean:
 	rm -f -- liboc.a liboc.so $(obj)
 
@@ -51,8 +63,11 @@ liboc.so: .depend $(obj)
 .c.o:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
+.c:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $<
+
 .pyo.py:
 	python -O -m compileall $<
 
-.PHONY: all clean distclean
+.PHONY: all check clean distclean
 .SUFFIXES: .c .o .py .pyo

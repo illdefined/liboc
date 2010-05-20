@@ -118,4 +118,10 @@
 # define __used
 #endif
 
+/* Work around sparse */
+#ifdef __CHECKER__
+# undef __flatten
+# define __flatten
+#endif
+
 #endif /* OC_FUNCTION_H */

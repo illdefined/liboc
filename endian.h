@@ -46,6 +46,11 @@
 		((x) & UINT32_C(0x000000ff)) << 24 : \
 		__builtin_bswap32(x))
 
+/* Work around sparse issue */
+#ifdef __CHECKER__
+# define __builtin_bswap64(x) (x)
+#endif
+
 /**
  * \brief Swap octets of a 64bit integer.
  *
