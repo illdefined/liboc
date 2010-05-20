@@ -4,6 +4,10 @@
 
 #include <stdint.h>
 
+#undef BIG_ENDIAN
+#undef LITTLE_ENDIAN
+#undef BYTE_ORDER
+
 #define BIG_ENDIAN 4321
 #define LITTLE_ENDIAN 1234
 #define BYTE_ORDER BIG_ENDIAN
@@ -22,15 +26,15 @@
 
 #define swap64(x) \
 	(__builtin_constant_p(x) ? \
-			((x) & UINT64_C(0(x)ff00000000000000)) >> 56 | \
-			((x) & UINT64_C(0(x)00ff000000000000)) >> 40 | \
-			((x) & UINT64_C(0(x)0000ff0000000000)) >> 24 | \
-			((x) & UINT64_C(0(x)000000ff00000000)) >>  8 | \
-			((x) & UINT64_C(0(x)00000000ff000000)) <<  8 | \
-			((x) & UINT64_C(0(x)0000000000ff0000)) << 24 | \
-			((x) & UINT64_C(0(x)000000000000ff00)) << 40 | \
-			((x) & UINT64_C(0(x)00000000000000ff)) << 56 : \
-			__builtin_bswap64((x))
+			((x) & UINT64_C(0xff00000000000000)) >> 56 | \
+			((x) & UINT64_C(0x00ff000000000000)) >> 40 | \
+			((x) & UINT64_C(0x0000ff0000000000)) >> 24 | \
+			((x) & UINT64_C(0x000000ff00000000)) >>  8 | \
+			((x) & UINT64_C(0x00000000ff000000)) <<  8 | \
+			((x) & UINT64_C(0x0000000000ff0000)) << 24 | \
+			((x) & UINT64_C(0x000000000000ff00)) << 40 | \
+			((x) & UINT64_C(0x00000000000000ff)) << 56 : \
+			__builtin_bswap64(x))
 
 #if BYTE_ORDER == BIG_ENDIAN
 
