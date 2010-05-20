@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 
-#include "builtin.h"
+#include "constancy.h"
 
 #undef BIG_ENDIAN
 #undef LITTLE_ENDIAN

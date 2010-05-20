@@ -1,11 +1,11 @@
 #pragma once
-#ifndef OC_BUILTIN_H
-#define OC_BUILTIN_H
+#ifndef OC_CONSTANCY_H
+#define OC_CONSTANCY_H
 
 /**
  * \file
  *
- * \brief Miscellaneous builtins.
+ * \brief Compile‐time constancy checks.
  */
 
 /**
@@ -24,4 +24,4 @@
 #define constant_p(expr) 0
 #endif
 
-#endif /* OC_BUILTIN_H */
+#endif /* OC_CONSTANCY_H */
