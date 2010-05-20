@@ -1,3 +1,9 @@
+/**
+ * \file
+ *
+ * \brief Unique identifiers.
+ */
+
 #include <errno.h>
 #include <fcntl.h>
 #include <stdbool.h>
@@ -22,9 +28,9 @@
 #define TAI_OFFSET UINT64_C(946728000)
 
 /**
- * \brief Generate unique idifier.
+ * \brief Generate unique identifier.
  *
- * \param id Buffer to hold idifier.
+ * \param id Buffer to hold identifier.
  *
  * \return True on success or false on failure.
  */
