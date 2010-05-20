@@ -12,12 +12,14 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "function.h"
+
 /**
  * \brief Read hardware tick counter.
  *
  * \return Current value of hardware tick counter.
  */
-inline uint64_t hardtick() {
+inline __check uint64_t hardtick() {
 	uint64_t ticks;
 
 /* x86 */
