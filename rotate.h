@@ -2,8 +2,22 @@
 #ifndef OC_ROTATE_H
 #define OC_ROTATE_H
 
+/**
+ * \file
+ *
+ * \brief Bitwise rotation operations.
+ */
+
 #include <stdint.h>
 
+/**
+ * \brief Rotate 8bit integer left
+ *
+ * \param x Integer to rotate.
+ * \param s Shift to rotate by.
+ *
+ * \return Rotated integer
+ */
 inline uint8_t rotl8(uint8_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x << s | x >> sizeof x * 8 - s;
@@ -20,6 +34,14 @@ inline uint8_t rotl8(uint8_t x, uint8_t s) {
 	}
 }
 
+/**
+ * \brief Rotate 16bit integer left
+ *
+ * \param x Integer to rotate.
+ * \param s Shift to rotate by.
+ *
+ * \return Rotated integer
+ */
 inline uint16_t rotl16(uint16_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x << s | x >> sizeof x * 8 - s;
@@ -36,6 +58,14 @@ inline uint16_t rotl16(uint16_t x, uint8_t s) {
 	}
 }
 
+/**
+ * \brief Rotate 32bit integer left
+ *
+ * \param x Integer to rotate.
+ * \param s Shift to rotate by.
+ *
+ * \return Rotated integer
+ */
 inline uint32_t rotl32(uint32_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x << s | x >> sizeof x * 8 - s;
@@ -52,6 +82,14 @@ inline uint32_t rotl32(uint32_t x, uint8_t s) {
 	}
 }
 
+/**
+ * \brief Rotate 64bit integer left
+ *
+ * \param x Integer to rotate.
+ * \param s Shift to rotate by.
+ *
+ * \return Rotated integer
+ */
 inline uint64_t rotl64(uint64_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x << s | x >> sizeof x * 8 - s;
@@ -68,6 +106,14 @@ inline uint64_t rotl64(uint64_t x, uint8_t s) {
 	}
 }
 
+/**
+ * \brief Rotate 8bit integer right
+ *
+ * \param x Integer to rotate.
+ * \param s Shift to rotate by.
+ *
+ * \return Rotated integer
+ */
 inline uint8_t rotr8(uint8_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x >> s | x << sizeof x * 8 - s;
@@ -84,6 +130,14 @@ inline uint8_t rotr8(uint8_t x, uint8_t s) {
 	}
 }
 
+/**
+ * \brief Rotate 16bit integer right
+ *
+ * \param x Integer to rotate.
+ * \param s Shift to rotate by.
+ *
+ * \return Rotated integer
+ */
 inline uint16_t rotr16(uint16_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x >> s | x << sizeof x * 8 - s;
@@ -100,6 +154,14 @@ inline uint16_t rotr16(uint16_t x, uint8_t s) {
 	}
 }
 
+/**
+ * \brief Rotate 32bit integer right
+ *
+ * \param x Integer to rotate.
+ * \param s Shift to rotate by.
+ *
+ * \return Rotated integer
+ */
 inline uint32_t rotr32(uint32_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x >> s | x << sizeof x * 8 - s;
@@ -116,6 +178,14 @@ inline uint32_t rotr32(uint32_t x, uint8_t s) {
 	}
 }
 
+/**
+ * \brief Rotate 64bit integer right
+ *
+ * \param x Integer to rotate.
+ * \param s Shift to rotate by.
+ *
+ * \return Rotated integer
+ */
 inline uint64_t rotr64(uint64_t x, uint8_t s) {
 	if (__builtin_constant_p(x) && __builtin_constant_p(s))
 		return x >> s | x << sizeof x * 8 - s;
