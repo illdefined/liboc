@@ -21,23 +21,13 @@ LDFLAGS  := -O1 -shared
 src      := skein.c unique.c
 obj      := $(src:.c=.o)
 
-check:
-	sparse $(CPPFLAGS) \
-		-gcc-base-dir "$$($(CC) -print-search-dirs | awk '/^install: / { print $$2 }')" \
-		-ftabstop=4 \
-		-Wdefault-bitfield-sign \
-		-Wparen-string \
-		-Wptr-subtraction-blows \
-		-Wreturn-void \
-		-Wshadow \
-		-Wtypesign \
-		$(src)
+check: .sparse
 
 clean:
 	rm -f -- liboc.a liboc.so $(obj)
 
 distclean: clean
-	rm -f -- .depend byteorder.o
+	rm -f -- .depend .sparse byteorder.o
 
 endian.h: byteorder.o
 	if grep -l "BIGenDianSyS" byteorder.o; \
@@ -54,6 +44,19 @@ endian.h: byteorder.o
 .depend: $(src)
 	$(CPP) $(CPPFLAGS) -M $(src) >$@
 
+.sparse: .depend $(src)
+	sparse $(CPPFLAGS) \
+		-gcc-base-dir "$$(gcc -print-search-dirs | awk '/^install: / { print $$2 }')" \
+		-ftabstop=4 \
+		-Wdefault-bitfield-sign \
+		-Wparen-string \
+		-Wptr-subtraction-blows \
+		-Wreturn-void \
+		-Wshadow \
+		-Wtypesign \
+		$(src)
+	touch $@
+
 liboc.a: .depend $(obj)
 	$(AR) rc $@ $(obj)
 
@@ -64,7 +67,7 @@ liboc.so: .depend $(obj)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 .c:
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $<
+	$(CC) $(CPPFLAGS) -DTEST $(CFLAGS) -o $@ $<
 
 .pyo.py:
 	python -O -m compileall $<
