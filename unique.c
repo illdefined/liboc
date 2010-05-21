@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 #include "endian.h"
+#include "expect.h"
 #include "hardtick.h"
 
 #include "unique.h"
@@ -37,12 +38,12 @@
 bool unique(uint64_t id[restrict 4]) {
 	/* Open random device */
 	int rnd = open(RANDOM_DEVICE, O_RDONLY);
-	if (rnd < 0)
+	if (unlikely(rnd < 0))
 		return false;
 
 	/* Read random data */
 	ssize_t cnt = read(rnd, id + 2, sizeof id - 2 * sizeof *id);
-	if (cnt < sizeof id - 2 * sizeof *id) {
+	if (unlikely(cnt < sizeof id - 2 * sizeof *id)) {
 		/* Specify error in errno */
 		if (cnt >= 0)
 			errno = EIO;
@@ -57,7 +58,7 @@ bool unique(uint64_t id[restrict 4]) {
 	/* Determine current time */
 	struct timespec now;
 
-	if (clock_gettime(CLOCK_REALTIME, &now))
+	if (unlikely(clock_gettime(CLOCK_REALTIME, &now)))
 		return false;
 
 	/* TAI in nanoseconds */
@@ -110,14 +111,14 @@ static inline unsigned int hamming(uint64_t x[restrict 4], uint64_t y[restrict 4
  */
 int main(void) {
 	uint64_t *ids = calloc(UNIQUE_COUNT, 4 * sizeof (uint64_t));
-	if (!ids) {
+	if (unlikely(!ids)) {
 		perror("calloc");
 		return EXIT_FAILURE;
 	}
 
 	/* Generate test identifiers */
 	for (size_t iter = 0; iter < UNIQUE_COUNT; ++iter) {
-		if (!unique(&ids[iter * 4])) {
+		if (unlikely(!unique(&ids[iter * 4]))) {
 			perror("unique");
 			return EXIT_FAILURE;
 		}
@@ -134,7 +135,7 @@ int main(void) {
 	printf("unique: Average hamming distance %f\n", avg);
 
 	/* FIXME: This value was choosen arbitrarily */
-	if (avg < 8.0) {
+	if (unlikely(avg < 8.0)) {
 		fputs("Average hamming distance unreasonably low\n", stderr);
 		return EXIT_FAILURE;
 	}
