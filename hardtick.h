@@ -14,6 +14,8 @@
 
 #include "function.h"
 
+#define asm __asm__
+
 /**
  * \brief Read hardware tick counter.
  *

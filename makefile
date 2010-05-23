@@ -8,15 +8,15 @@ ifneq ($(MAKECMDGOALS),distclean)
 endif
 endif
 
-CC       := $(shell if which clang 2>&1 >/dev/null; then echo clang; else echo gcc; fi)
-CPP      := $(CC) -E
-LD       := ld
+CC       ?= $(shell if which clang 2>&1 >/dev/null; then echo clang; else echo gcc; fi)
+CPP      ?= $(CC) -E
+LD       ?= ld
 
-CPPFLAGS := -std=gnu99
-CFLAGS   := -pipe -O2 -Wall
+CPPFLAGS += -std=c99 -D_POSIX_C_SOURCE=199309L
+CFLAGS   += -pipe -O2 -Wall
 CFLAGS   += -fmerge-all-constants -fstrict-overflow
 CFLAGS   += -frename-registers -fPIC -fno-common
-LDFLAGS  := -O1 -shared
+LDFLAGS  += -O1 -shared
 
 src      := skein.c unique.c
 obj      := $(src:.c=.o)
