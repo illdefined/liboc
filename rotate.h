@@ -21,7 +21,7 @@
  *
  * \return Rotated integer
  */
-inline __const uint8_t rotl8(uint8_t x, uint8_t (s & sizeof x * 8 - 1)) {
+inline __const uint8_t rotl8(uint8_t x, uint8_t s) {
 	if (constant_p(x) && constant_p(s))
 		return x << (s & sizeof x * 8 - 1) | x >> sizeof x * 8 - (s & sizeof x * 8 - 1);
 	else {
@@ -45,7 +45,7 @@ inline __const uint8_t rotl8(uint8_t x, uint8_t (s & sizeof x * 8 - 1)) {
  *
  * \return Rotated integer
  */
-inline __const uint16_t rotl16(uint16_t x, uint8_t (s & sizeof x * 8 - 1)) {
+inline __const uint16_t rotl16(uint16_t x, uint8_t s) {
 	if (constant_p(x) && constant_p(s))
 		return x << (s & sizeof x * 8 - 1) | x >> sizeof x * 8 - (s & sizeof x * 8 - 1);
 	else {
@@ -69,7 +69,7 @@ inline __const uint16_t rotl16(uint16_t x, uint8_t (s & sizeof x * 8 - 1)) {
  *
  * \return Rotated integer
  */
-inline __const uint32_t rotl32(uint32_t x, uint8_t (s & sizeof x * 8 - 1)) {
+inline __const uint32_t rotl32(uint32_t x, uint8_t s) {
 	if (constant_p(x) && constant_p(s))
 		return x << (s & sizeof x * 8 - 1) | x >> sizeof x * 8 - (s & sizeof x * 8 - 1);
 	else {
@@ -93,7 +93,7 @@ inline __const uint32_t rotl32(uint32_t x, uint8_t (s & sizeof x * 8 - 1)) {
  *
  * \return Rotated integer
  */
-inline __const uint64_t rotl64(uint64_t x, uint8_t (s & sizeof x * 8 - 1)) {
+inline __const uint64_t rotl64(uint64_t x, uint8_t s) {
 	if (constant_p(x) && constant_p(s))
 		return x << (s & sizeof x * 8 - 1) | x >> sizeof x * 8 - (s & sizeof x * 8 - 1);
 	else {
@@ -117,7 +117,7 @@ inline __const uint64_t rotl64(uint64_t x, uint8_t (s & sizeof x * 8 - 1)) {
  *
  * \return Rotated integer
  */
-inline __const uint8_t rotr8(uint8_t x, uint8_t (s & sizeof x * 8 - 1)) {
+inline __const uint8_t rotr8(uint8_t x, uint8_t s) {
 	if (constant_p(x) && constant_p(s))
 		return x >> (s & sizeof x * 8 - 1) | x << sizeof x * 8 - (s & sizeof x * 8 - 1);
 	else {
@@ -141,7 +141,7 @@ inline __const uint8_t rotr8(uint8_t x, uint8_t (s & sizeof x * 8 - 1)) {
  *
  * \return Rotated integer
  */
-inline __const uint16_t rotr16(uint16_t x, uint8_t (s & sizeof x * 8 - 1)) {
+inline __const uint16_t rotr16(uint16_t x, uint8_t s) {
 	if (constant_p(x) && constant_p(s))
 		return x >> (s & sizeof x * 8 - 1) | x << sizeof x * 8 - (s & sizeof x * 8 - 1);
 	else {
@@ -165,7 +165,7 @@ inline __const uint16_t rotr16(uint16_t x, uint8_t (s & sizeof x * 8 - 1)) {
  *
  * \return Rotated integer
  */
-inline __const uint32_t rotr32(uint32_t x, uint8_t (s & sizeof x * 8 - 1)) {
+inline __const uint32_t rotr32(uint32_t x, uint8_t s) {
 	if (constant_p(x) && constant_p(s))
 		return x >> (s & sizeof x * 8 - 1) | x << sizeof x * 8 - (s & sizeof x * 8 - 1);
 	else {
@@ -189,7 +189,7 @@ inline __const uint32_t rotr32(uint32_t x, uint8_t (s & sizeof x * 8 - 1)) {
  *
  * \return Rotated integer
  */
-inline __const uint64_t rotr64(uint64_t x, uint8_t (s & sizeof x * 8 - 1)) {
+inline __const uint64_t rotr64(uint64_t x, uint8_t s) {
 	if (constant_p(x) && constant_p(s))
 		return x >> (s & sizeof x * 8 - 1) | x << sizeof x * 8 - (s & sizeof x * 8 - 1);
 	else {
