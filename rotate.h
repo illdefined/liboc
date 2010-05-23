@@ -99,7 +99,7 @@ inline __const uint64_t rotl64(uint64_t x, uint8_t s) {
 	else {
 
 /* x86 */
-#if defined(__i386__) || defined(__x86_64__)
+#if defined(__x86_64__)
 		asm ("rolq %b1, %q0" : "=q" (x) : "ci" (s) : "cc");
 		return x;
 
@@ -195,7 +195,7 @@ inline __const uint64_t rotr64(uint64_t x, uint8_t s) {
 	else {
 
 /* x86 */
-#if defined(__i386__) || defined(__x86_64__)
+#if defined(__x86_64__)
 		asm ("rorq %b1, %q0" : "=q" (x) : "ci" (s) : "cc");
 		return x;
 
