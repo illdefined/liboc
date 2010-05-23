@@ -13,7 +13,7 @@ CPP      ?= $(CC) -E
 LD       ?= ld
 
 CPPFLAGS += -std=c99 -D_POSIX_C_SOURCE=199309L
-CFLAGS   += -pipe -O2 -Wall
+CFLAGS   += -pipe -O2 -Wall -Wno-parentheses -pedantic
 CFLAGS   += -fmerge-all-constants -fstrict-overflow
 CFLAGS   += -frename-registers -fPIC -fno-common
 LDFLAGS  += -O1 -shared
