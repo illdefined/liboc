@@ -17,6 +17,7 @@ CFLAGS   += -pipe -O2 -Wall -Wno-parentheses -pedantic
 CFLAGS   += -fmerge-all-constants -fstrict-overflow
 CFLAGS   += -frename-registers -fPIC -fno-common
 LDFLAGS  += -O1 -shared
+LIBS     ?= -lrt
 
 src      := skein.c unique.c
 obj      := $(src:.c=.o)
@@ -61,7 +62,7 @@ liboc.a: .depend $(obj)
 	$(AR) rc $@ $(obj)
 
 liboc.so: .depend $(obj)
-	$(LD) $(LDFLAGS) -o $@ $(obj)
+	$(LD) $(LDFLAGS) -o $@ $(obj) $(LIBS)
 
 .c.o:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
