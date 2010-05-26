@@ -71,72 +71,72 @@
 			__builtin_bswap64(x))
 
 /**
- * \def tobe16(x)
+ * \def be16(x)
  *
- * \brief Convert native 16bit integer to big‐endian byte‐order.
+ * \brief Convert native 16bit integer from or to big‐endian byte‐order.
  *
- * \return Big‐endian integer.
+ * \return Converted integer.
  */
 
 /**
- * \def tobe32(x)
+ * \def be32(x)
  *
- * \brief Convert native 32bit integer to big‐endian byte‐order.
+ * \brief Convert native 32bit integer from or to big‐endian byte‐order.
  *
- * \return Big‐endian integer.
+ * \return Converted integer.
  */
 
 /**
- * \def tobe64(x)
+ * \def be64(x)
  *
- * \brief Convert native 64bit integer to big‐endian byte‐order.
+ * \brief Convert native 64bit integer from or to big‐endian byte‐order.
  *
- * \return Big‐endian integer.
+ * \return Converted integer.
  */
 
 /**
- * \def tole16(x)
+ * \def le16(x)
  *
- * \brief Convert native 16bit integer to little‐endian byte‐order.
+ * \brief Convert native 16bit integer from or to little‐endian byte‐order.
  *
- * \return Little‐endian integer.
+ * \return Converted integer.
  */
 
 /**
- * \def tole32(x)
+ * \def le32(x)
  *
- * \brief Convert native 32bit integer to little‐endian byte‐order.
+ * \brief Convert native 32bit integer from or to little‐endian byte‐order.
  *
- * \return Little‐endian integer.
+ * \return Converted integer.
  */
 
 /**
- * \def tole64(x)
+ * \def le64(x)
  *
- * \brief Convert native 64bit integer to little‐endian byte‐order.
+ * \brief Convert native 64bit integer from or to little‐endian byte‐order.
  *
- * \return Little‐endian integer.
+ * \return Converted integer.
  */
 
 #if BYTE_ORDER == BIG_ENDIAN
 
-#define tobe16(x) x
-#define tobe32(x) x
-#define tobe64(x) x
+#define be16(x) x
+#define be32(x) x
+#define be64(x) x
 
-#define tole16(x) swap16(x)
-#define tole32(x) swap32(x)
-#define tole64(x) swap64(x)
+#define le16(x) swap16(x)
+#define le32(x) swap32(x)
+#define le64(x) swap64(x)
 
 #elif BYTE_ORDER == LITTLE_ENDIAN
 
-#define tobe16(x) swap16(x)
-#define tobe32(x) swap32(x)
-#define tobe64(x) swap64(x)
+#define be16(x) swap16(x)
+#define be32(x) swap32(x)
+#define be64(x) swap64(x)
 
-#define tole16(x) x
-#define tole32(x) x
-#define tole64(x) x
+#define le16(x) x
+#define le32(x) x
+#define le64(x) x
 
 #else
 #error "Unknown byte‐order!"
