@@ -15,12 +15,17 @@
 #define SKEIN_WORDS 4
 
 /**
+ * \brief Bytes per block.
+ */
+#define SKEIN_BYTES (SKEIN_WORDS * sizeof (uint64_t))
+
+/**
  * \brief Skein context structure.
  */
 struct skein {
 	uint64_t tweak[TWEAK_WORDS]; /**< Tweak words. */
 	uint64_t chain[SKEIN_WORDS]; /**< Chaining variables. */
-	uint8_t  block[SKEIN_WORDS * sizeof (uint64_t)]; /**< Partial block buffer. */
+	uint8_t  block[SKEIN_BYTES]; /**< Partial block buffer. */
 	size_t   level;    /**< Buffer fill level. */
 };
 

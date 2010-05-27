@@ -4,6 +4,7 @@
  * \brief Skein hash function
  */
 
+#include <assert.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -45,6 +46,9 @@ static void skein_block(struct skein *restrict ctx, const uint8_t *restrict mesg
 	state[i3] ^= state[i2]; \
 
 	for (size_t iter = 0; iter < nblk; ++iter) {
+		/* Catch integer overflow */
+		assert(ctx->tweak[0] + blen >= blen);
+
 		ctx->tweak[0] += blen;
 
 		/* Precompute key schedule */
@@ -130,9 +134,12 @@ void skein_init(struct skein *restrict ctx) {
  * \param size Size of message.
  */
 void skein_feed(struct skein *restrict ctx, const uint8_t *restrict mesg, size_t size) {
-	if (ctx->level + size > sizeof ctx->block) {
+	/* Catch integer overflow */
+	assert(ctx->level + size >= size);
+
+	if (ctx->level + size > SKEIN_BYTES) {
 		if (ctx->level) {
-			size_t rem = sizeof ctx->block - ctx->level;
+			size_t rem = SKEIN_BYTES - ctx->level;
 
 			if (rem) {
 				memcpy(&ctx->block[ctx->level], mesg, rem);
@@ -140,17 +147,17 @@ void skein_feed(struct skein *restrict ctx, const uint8_t *restrict mesg, size_t
 				mesg += rem;
 			}
 
-			skein_block(ctx, ctx->block, 1, sizeof ctx->block);
+			skein_block(ctx, ctx->block, 1, SKEIN_BYTES);
 			ctx->level = 0;
 		}
 
 		/* Process any remaining blocks */
-		if (size > sizeof ctx->block) {
-			size_t blk = (size - 1) / sizeof ctx->block;
+		if (size > SKEIN_BYTES) {
+			size_t blk = (size - 1) / SKEIN_BYTES;
 
-			skein_block(ctx, mesg, blk, sizeof ctx->block);
-			size -= blk * sizeof ctx->block;
-			mesg += blk * sizeof ctx->block;
+			skein_block(ctx, mesg, blk, SKEIN_BYTES);
+			size -= blk * SKEIN_BYTES;
+			mesg += blk * SKEIN_BYTES;
 		}
 	}
 
@@ -171,18 +178,19 @@ void skein_feed(struct skein *restrict ctx, const uint8_t *restrict mesg, size_t
  * writes the hash value to \a hash.
  */
 void skein_plug(struct skein *restrict ctx, uint64_t hash[restrict SKEIN_WORDS]) {
+	/* Mark as the final block */
 	ctx->tweak[1] |= FLAG_FINAL;
 
-	/* Zero‐pad partial block */
-	if (ctx->level < sizeof ctx->block)
-		memset(&ctx->block[ctx->level], 0, sizeof ctx->block - ctx->level);
+	/* Zero‐pad final block */
+	if (ctx->level < SKEIN_BYTES)
+		memset(&ctx->block[ctx->level], 0, SKEIN_BYTES - ctx->level);
 	skein_block(ctx, ctx->block, 1, ctx->level);
 
+	/* Generate output */
 	ctx->tweak[0] = 0;
 	ctx->tweak[1] = FLAG_FIRST | FLAG_FINAL | TYPE_OUT;
 
-	for (size_t iter = 0; iter < SKEIN_WORDS; ++iter)
-		ctx->block[iter] = 0;
+	memset(ctx->block, 0, SKEIN_BYTES);
 
 	skein_block(ctx, ctx->block, 1, sizeof (uint64_t));
 
