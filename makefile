@@ -79,8 +79,5 @@ liboc.so: .depend $(obj)
 .c:
 	$(CC) $(CPPFLAGS) -DTEST $(CFLAGS) -o $@ $<
 
-.pyo.py:
-	python -O -m compileall $<
-
 .PHONY: all check clean distclean
-.SUFFIXES: .c .o .py .pyo
+.SUFFIXES: .c .o
