@@ -22,7 +22,9 @@ LIBS     ?= -lrt
 DESTDIR  ?= /
 PREFIX   ?= usr/
 LIBDIR   ?= lib
+INCDIR   ?= include
 
+hdr      := skein.h
 src      := skein.c
 obj      := $(src:.c=.o)
 
@@ -35,9 +37,13 @@ distclean: clean
 	rm -f -- .depend .sparse byteorder.o
 
 install: liboc.a liboc.so
+	install -d $(DESTDIR)$(PREFIX)$(INCDIR)/OC
+	install -m 644 $(hdr) $(DESTDIR)$(PREFIX)$(INCDIR)/OC
+	
 	install -d $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 644 liboc.a $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 755 liboc.so $(DESTDIR)$(PREFIX)$(LIBDIR)
+
 
 endian.h: byteorder.o
 	if grep -l "BIGenDianSyS" byteorder.o; \
