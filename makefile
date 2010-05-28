@@ -19,6 +19,10 @@ CFLAGS   += -frename-registers -fPIC -fno-common
 LDFLAGS  += -O1 -shared
 LIBS     ?= -lrt
 
+DESTDIR  ?= /
+PREFIX   ?= usr/
+LIBDIR   ?= lib
+
 src      := skein.c unique.c
 obj      := $(src:.c=.o)
 
@@ -29,6 +33,11 @@ clean:
 
 distclean: clean
 	rm -f -- .depend .sparse byteorder.o
+
+install: liboc.a liboc.so
+	install -d $(DESTDIR)$(PREFIX)$(LIBDIR)
+	install -m 644 liboc.a $(DESTDIR)$(PREFIX)$(LIBDIR)
+	install -m 755 liboc.so $(DESTDIR)$(PREFIX)$(LIBDIR)
 
 endian.h: byteorder.o
 	if grep -l "BIGenDianSyS" byteorder.o; \
