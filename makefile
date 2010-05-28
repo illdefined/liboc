@@ -23,7 +23,7 @@ DESTDIR  ?= /
 PREFIX   ?= usr/
 LIBDIR   ?= lib
 
-src      := skein.c unique.c
+src      := skein.c
 obj      := $(src:.c=.o)
 
 check: .sparse
