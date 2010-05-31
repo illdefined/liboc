@@ -27,7 +27,11 @@ hdr      := skein.h
 src      := skein.c
 obj      := $(src:.c=.o)
 
-check: .sparse
+check: .depend .sparse $(src)
+	for test in $(src:.c=); \
+	do \
+		$(CC) $(CPPFLAGS) -DTEST $(CFLAGS) -o $$test $$test.c && ./$$test || exit 1; \
+	done
 
 clean:
 	rm -f -- liboc.a liboc.so $(obj)
@@ -42,7 +46,6 @@ install: liboc.a liboc.so
 	install -d $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 644 liboc.a $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 755 liboc.so $(DESTDIR)$(PREFIX)$(LIBDIR)
-
 
 endian.h: byteorder.o
 	if grep -l "BIGenDianSyS" byteorder.o; \
@@ -80,9 +83,6 @@ liboc.so: .depend $(obj)
 
 .c.o:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
-
-.c:
-	$(CC) $(CPPFLAGS) -DTEST $(CFLAGS) -o $@ $<
 
 .PHONY: all check clean distclean
 .SUFFIXES: .c .o
