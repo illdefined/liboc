@@ -12,7 +12,7 @@ CC       ?= $(shell if which clang 2>&1 >/dev/null; then echo clang; else echo g
 CPP      ?= $(CC) -E
 LD       ?= ld
 
-CPPFLAGS += -std=c99 -D_POSIX_C_SOURCE=199309L
+CPPFLAGS += -std=c99 -D_XOPEN_SOURCE=600
 CFLAGS   += -pipe -O2 -Wall -Wno-parentheses -pedantic
 CFLAGS   += -fmerge-all-constants -fstrict-overflow
 CFLAGS   += -frename-registers -fPIC -fno-common
@@ -23,8 +23,8 @@ PREFIX   ?= usr/
 LIBDIR   ?= lib
 INCDIR   ?= include
 
-hdr      := skein.h
-src      := skein.c
+hdr      := skein.h transform.h
+src      := skein.c transform.c
 obj      := $(src:.c=.o)
 
 check: .depend .sparse $(src)

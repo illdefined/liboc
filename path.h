@@ -14,6 +14,11 @@
 #define CACHE_BASE "/var/cache/opencorpus/"
 
 /**
+ * \brief Base path for executables.
+ */
+#define EXEC_BASE "/usr/libexec/opencorpus/"
+
+/**
  * \brief Base path for lock files.
  */
 #define LOCK_BASE "/var/cache/opencorpus/"
