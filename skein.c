@@ -187,7 +187,7 @@ void skein_feed(struct skein *restrict ctx, const uint8_t *restrict mesg, size_t
  * The \c skein_plug function finalises the incremental hashing and
  * writes the hash value to \a hash.
  */
-void skein_plug(struct skein *restrict ctx, uint8_t *restrict hash) {
+void skein_plug(struct skein *restrict ctx, uint8_t hash[restrict SKEIN_BYTES]) {
 	/* Mark as the final block */
 	ctx->tweak[1] |= FLAG_FINAL;
 
@@ -216,7 +216,7 @@ void skein_plug(struct skein *restrict ctx, uint8_t *restrict hash) {
  * \param mesg Message to hash.
  * \param size Size of message.
  */
-void skein(uint8_t *restrict hash, const uint8_t *restrict mesg, size_t size) {
+void skein(uint8_t hash[restrict SKEIN_BYTES], const uint8_t *restrict mesg, size_t size) {
 	struct skein ctx;
 
 	skein_init(&ctx);

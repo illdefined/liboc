@@ -31,8 +31,8 @@ struct skein {
 
 void skein_init(struct skein *restrict);
 void skein_feed(struct skein *restrict, const uint8_t *restrict, size_t);
-void skein_plug(struct skein *restrict, uint8_t *restrict);
+void skein_plug(struct skein *restrict, uint8_t[restrict SKEIN_BYTES]);
 
-void skein(uint8_t *restrict, const uint8_t *restrict, size_t);
+void skein(uint8_t[restrict SKEIN_BYTES], const uint8_t *restrict, size_t);
 
 #endif /* OC_SKEIN_H */
