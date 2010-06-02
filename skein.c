@@ -453,7 +453,7 @@ int main(void) {
 		skein(hash, null, size);
 
 		if (unlikely(memcmp(hash, test[size], SKEIN_BYTES))) {
-			fprintf(stderr, "Hash differs from test vector %lu!\n0x", size);
+			fprintf(stderr, "Hash differs from test vector %lu!\n0x", (unsigned long) size);
 
 			/* Print hash */
 			for (size_t byte = 0; byte < SKEIN_BYTES; ++byte)
