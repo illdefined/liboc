@@ -17,6 +17,7 @@ CFLAGS   += -pipe -O2 -Wall -Wno-parentheses -pedantic
 CFLAGS   += -fmerge-all-constants -fstrict-overflow
 CFLAGS   += -frename-registers -fPIC -fno-common
 LDFLAGS  += -O1 -shared
+LIBS     ?= -ltokyocabinet
 
 DESTDIR  ?= /
 PREFIX   ?= usr/
