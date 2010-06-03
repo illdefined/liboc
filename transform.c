@@ -323,7 +323,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	narg[sizeof num * 2] = '\0';
 
 	/* Set argument vector up */
-	char *argv[9] = { "sydbox", "-C", "-L", path, source, cache, temp, narg, (char *) 0 };
+	char *argv[] = { "sydbox", "-C", "-L", path, source, cache, temp, narg, (char *) 0 };
 
 	/* Writable directories */
 	char *sydwr = concat("SYDBOX_WRITE=/tmp/;" CACHE_BASE, idstr, ";" TEMP_BASE, idstr);
@@ -331,7 +331,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		goto egress6;
 
 	/* Set environment up */
-	char *envp[2] = { sydwr, (char *) 0 };
+	char *envp[] = { sydwr, (char *) 0 };
 
 	/* Spawn sub‐process */
 	if (posix_spawnp(pid, "sydbox", &file_actions, (posix_spawnattr_t *) 0, argv, envp))
