@@ -175,11 +175,10 @@ egress0:
  *
  * \param prefix Mandatory path prefix.
  * \param path Path name.
- * \param mode Access mode.
  *
  * \return Pointer to the new path name or <tt>(char *) 0</tt> on failure.
  */
-static char *canonicalise(const char *restrict prefix, const char *restrict path, int mode) {
+static char *canonicalise(const char *restrict prefix, const char *restrict path) {
 	char *result = (char *) 0;
 
 	char *canon = realpath(path, (char *) 0);
@@ -190,9 +189,6 @@ static char *canonicalise(const char *restrict prefix, const char *restrict path
 		errno = EPERM;
 		goto egress1;
 	}
-
-	if (access(canon, mode))
-		goto egress1;
 
 	result = canon;
 	goto egress0;
@@ -238,14 +234,6 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	if (!path)
 		goto egress0;
 
-	/* Validate path */
-	char *canon = canonicalise(SHARE_BASE, path, R_OK);
-	if (!canon)
-		goto egress1;
-
-	free(path);
-	path = canon;
-
 	/* Read transformer name */
 	char *name = dump(path, NAME_MAX);
 	if (!name)
@@ -259,12 +247,16 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		goto egress2;
 
 	/* Validate path */
-	canon = canonicalise(EXEC_BASE, path, X_OK);
+	char *canon = canonicalise(EXEC_BASE, path);
 	if (!canon)
 		goto egress2;
 
 	free(path);
 	path = canon;
+
+	/* Check permissions */
+	if (access(path, X_OK))
+		goto egress2;
 
 	posix_spawn_file_actions_t file_actions;
 
@@ -289,52 +281,40 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		if (posix_spawn_file_actions_adddup2(&file_actions, in[iter], iter + 3))
 			goto egress3;
 
-	/* Set argument vector up */
-	char *argv[9];
-
-	argv[0] = "sydbox";
-	argv[1] = "-C";
-	argv[2] = "-L";
-	argv[3] = name;
-
 	/* Source directory */
-	argv[4] = concat(SHARE_BASE, idstr, (char *) 0);
-	if (!argv[4])
+	char *source = concat(SHARE_BASE, idstr, (char *) 0);
+	if (!source)
 		goto egress3;
 
-	/* Validate path */
-	canon = canonicalise(SHARE_BASE, argv[4], R_OK);
-	if (!canon)
+	/* Check permissions */
+	if (access(source, R_OK | X_OK))
 		goto egress4;
-
-	free(argv[4]);
-	argv[4] = canon;
 
 	/* Cache directory */
-	argv[5] = concat(CACHE_BASE, idstr, (char *) 0);
-	if (!argv[5])
+	char *cache = concat(CACHE_BASE, idstr, (char *) 0);
+	if (!cache)
 		goto egress4;
 
-	/* Validate path */
-	canon = canonicalise(CACHE_BASE, argv[5], W_OK);
-	if (!canon)
+	/* Create directory */
+	if (mkdir(cache, 0755) && errno != EEXIST)
 		goto egress5;
 
-	free(argv[5]);
-	argv[5] = canon;
+	/* Check permissions */
+	if (access(cache, R_OK | W_OK | X_OK))
+		goto egress5;
 
 	/* Temporary file directory */
-	argv[6] = concat(TEMP_BASE, idstr, (char *) 0);
-	if (!argv[6])
+	char *temp = concat(TEMP_BASE, idstr, (char *) 0);
+	if (!temp)
 		goto egress5;
 
-	/* Validate path */
-	canon = canonicalise(TEMP_BASE, argv[6], W_OK);
-	if (!canon)
+	/* Create directory */
+	if (mkdir(temp, 0755) && errno != EEXIST)
 		goto egress6;
 
-	free(argv[6]);
-	argv[6] = canon;
+	/* Check permissions */
+	if (access(temp, R_OK | W_OK | X_OK))
+		goto egress6;
 
 	/* Get number of input descriptors as hexadecimal ASCII string */
 	char narg[sizeof num * 2 + 1];
@@ -342,36 +322,34 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		narg[idx] = num >> sizeof num * 8 - idx * 4 & 0xf;
 	narg[sizeof num * 2] = '\0';
 
-	argv[7] = narg;
-	argv[8] = (char *) 0;
-
-	/* Set environment up */
-	char *envp[2];
+	/* Set argument vector up */
+	char *argv[9] = { "sydbox", "-C", "-L", path, source, cache, temp, narg, (char *) 0 };
 
 	/* Writable directories */
-	envp[0] = concat("SYDBOX_WRITE=/tmp/;" CACHE_BASE, idstr, ";" TEMP_BASE, idstr);
-	if (!envp[0])
+	char *sydwr = concat("SYDBOX_WRITE=/tmp/;" CACHE_BASE, idstr, ";" TEMP_BASE, idstr);
+	if (!sydwr)
 		goto egress6;
 
-	envp[1] = (char *) 0;
+	/* Set environment up */
+	char *envp[2] = { sydwr, (char *) 0 };
 
 	/* Spawn sub‐process */
-	if (posix_spawn(pid, path, &file_actions, (posix_spawnattr_t *) 0, argv, envp))
+	if (posix_spawnp(pid, "sydbox", &file_actions, (posix_spawnattr_t *) 0, argv, envp))
 		goto egress7;
 
 	result = true;
 
 egress7:
-	free(envp[0]);
+	free(sydwr);
 
 egress6:
-	free(argv[6]);
+	free(temp);
 
 egress5:
-	free(argv[5]);
+	free(cache);
 
 egress4:
-	free(argv[4]);
+	free(source);
 
 egress3:
 	posix_spawn_file_actions_destroy(&file_actions);
@@ -439,13 +417,6 @@ bool cleanup(const uint8_t ident[restrict 32], bool cache) {
 	if (!path)
 		goto egress0;
 
-	char *canon = canonicalise(TEMP_BASE, path, W_OK);
-	if (!canon)
-		goto egress1;
-
-	free(path);
-	path = canon;
-
 	if (nftw(path, slave, 32, FTW_DEPTH | FTW_PHYS))
 		goto egress1;
 
@@ -453,13 +424,6 @@ bool cleanup(const uint8_t ident[restrict 32], bool cache) {
 		path = concat(CACHE_BASE, idstr, (char *) 0);
 		if (!path)
 			goto egress0;
-
-		canon = canonicalise(CACHE_BASE, path, W_OK);
-		if (!canon)
-			goto egress1;
-
-		free(path);
-		path = canon;
 
 		if (nftw(path, slave, 32, FTW_CHDIR | FTW_DEPTH | FTW_PHYS))
 			goto egress1;
