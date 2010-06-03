@@ -19,6 +19,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "endian.h"
 #include "expect.h"
 #include "path.h"
 #include "string.h"
@@ -129,7 +130,7 @@ egress0:
  *
  * \return \c true if successful or \c false on failure.
  */
-bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int out, const int in[restrict], size_t num) {
+bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int out, const int in[restrict], uint16_t num) {
 	bool result = false;
 
 	char idstr[sizeof ident * 2 + 1];
@@ -226,9 +227,8 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 
 	/* Get number of input descriptors as hexadecimal ASCII string */
 	char narg[sizeof num * 2 + 1];
-	for (size_t idx = 0; idx < sizeof num * 2; ++idx)
-		narg[idx] = num >> sizeof num * 8 - idx * 4 & 0xf;
-	narg[sizeof num * 2] = '\0';
+	num = be16(num);
+	hexstr(narg, &num, sizeof num);
 
 	/* Set argument vector up */
 	char *argv[] = { "sydbox", "-C", "-L", path, source, cache, temp, narg, (char *) 0 };
