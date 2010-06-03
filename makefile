@@ -24,8 +24,8 @@ PREFIX   ?= usr/
 LIBDIR   ?= lib
 INCDIR   ?= include
 
-hdr      := skein.h transform.h trivial.h
-src      := skein.c string.c transform.c trivial.c
+hdr      := skein.h storage.h transform.h trivial.h
+src      := skein.c storage.c string.c transform.c trivial.c
 obj      := $(src:.c=.o)
 
 check: .depend .sparse $(src)
