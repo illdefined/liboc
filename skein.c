@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \brief Skein hash function
+ * \brief Skein hash function.
  */
 
 #include <assert.h>
