@@ -10,6 +10,7 @@
 
 #include <tchdb.h>
 
+#include "expect.h"
 #include "path.h"
 #include "trivial.h"
 
@@ -27,13 +28,13 @@ bool trivial_init(struct trivial *restrict ctx) {
 	bool result = false;
 
 	ctx->hdb = tchdbnew();
-	if (!ctx->hdb)
+	if (unlikely(!ctx->hdb))
 		goto egress0;
 
-	if (!tchdbsetcache(ctx->hdb, TRIVIAL_CACHE))
+	if (unlikely(!tchdbsetcache(ctx->hdb, TRIVIAL_CACHE)))
 		goto egress1;
 
-	if (!tchdbopen(ctx->hdb, TRIVIAL_PATH, HDBOREADER))
+	if (unlikely(!tchdbopen(ctx->hdb, TRIVIAL_PATH, HDBOREADER)))
 		goto egress1;
 
 	result = true;
@@ -58,7 +59,7 @@ egress0:
 bool trivial_resolve(struct trivial *restrict ctx, uint8_t ident[restrict 32], const char *restrict name) {
 	bool result = false;
 
-	if (tchdbget3(ctx->hdb, name, strlen(name), ident, sizeof ident) != sizeof ident)
+	if (unlikely(tchdbget3(ctx->hdb, name, strlen(name), ident, sizeof ident) != sizeof ident))
 		goto egress0;
 
 	result = true;

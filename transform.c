@@ -14,6 +14,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "expect.h"
 #include "path.h"
 #include "transform.h"
 
@@ -72,29 +73,29 @@ static char *dump(const char *restrict path, size_t max) {
 
 	/* Open file in read‐only mode */
 	int fd = open(path, O_RDONLY);
-	if (fd < 0)
+	if (unlikely(fd < 0))
 		goto egress0;
 
 	/* Determine file size */
 	struct stat st;
-	if (fstat(fd, &st))
+	if (unlikely(fstat(fd, &st)))
 		goto egress1;
 
-	if (st.st_size > max) {
+	if (unlikely(st.st_size > max)) {
 		errno = EFBIG;
 		goto egress1;
 	}
 
 	/* Allocate file buffer */
 	char *buf = malloc(st.st_size + 1);
-	if (!buf)
+	if (unlikely(!buf))
 		goto egress1;
 
 	/* Dump file */
 	ssize_t ret = read(fd, buf, st.st_size + 1);
-	if (ret < 0)
+	if (unlikely(ret < 0))
 		goto egress2;
-	else if (ret > st.st_size) {
+	else if (unlikely(ret > st.st_size)) {
 		errno = EFBIG;
 		goto egress2;
 	}
@@ -130,7 +131,7 @@ static char *concat(const char *restrict prefix, ...) {
 
 	size_t size = strlen(prefix) + 1;
 	char *buf = malloc(PATH_MAX);
-	if (!buf)
+	if (unlikely(!buf))
 		goto egress0;
 
 	strcpy(buf, prefix);
@@ -141,11 +142,11 @@ static char *concat(const char *restrict prefix, ...) {
 	for (;;) {
 		const char *arg = va_arg(ap, const char *);
 
-		if (!arg)
+		if (unlikely(!arg))
 			break;
 
 		void *nbuf = realloc(buf, size + strlen(arg));
-		if (!nbuf)
+		if (unlikely(!nbuf))
 			goto egress1;
 		else
 			buf = nbuf;
@@ -182,10 +183,10 @@ static char *canonicalise(const char *restrict prefix, const char *restrict path
 	char *result = (char *) 0;
 
 	char *canon = realpath(path, (char *) 0);
-	if (!canon)
+	if (unlikely(!canon))
 		goto egress0;
 
-	if (strncmp(canon, prefix, strlen(prefix))) {
+	if (unlikely(strncmp(canon, prefix, strlen(prefix)))) {
 		errno = EPERM;
 		goto egress1;
 	}
@@ -231,89 +232,89 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 
 	/* Generate transformer specifier path */
 	char *path = concat(SHARE_BASE, idstr, "/transformer", (char *) 0);
-	if (!path)
+	if (unlikely(!path))
 		goto egress0;
 
 	/* Read transformer name */
 	char *name = dump(path, NAME_MAX);
-	if (!name)
+	if (unlikely(!name))
 		goto egress1;
 
 	free(path);
 
 	/* Generate transformer path */
 	path = concat(EXEC_BASE, name, (char *) 0);
-	if (!path)
+	if (unlikely(!path))
 		goto egress2;
 
 	/* Validate path */
 	char *canon = canonicalise(EXEC_BASE, path);
-	if (!canon)
+	if (unlikely(!canon))
 		goto egress2;
 
 	free(path);
 	path = canon;
 
 	/* Check permissions */
-	if (access(path, X_OK))
+	if (unlikely(access(path, X_OK)))
 		goto egress2;
 
 	posix_spawn_file_actions_t file_actions;
 
 	/* Set file descriptors up */
-	if (posix_spawn_file_actions_init(&file_actions))
+	if (unlikely(posix_spawn_file_actions_init(&file_actions)))
 		goto egress2;
 
 	/* Standard input will not be used */
-	if (posix_spawn_file_actions_addopen(&file_actions, 0, "/dev/null", O_RDONLY, 0))
+	if (unlikely(posix_spawn_file_actions_addopen(&file_actions, 0, "/dev/null", O_RDONLY, 0)))
 		goto egress3;
 
 	/* Standard out will be used for the output tree */
-	if (posix_spawn_file_actions_adddup2(&file_actions, out, 1))
+	if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, out, 1)))
 		goto egress3;
 
 	/* Standard error will be used for logging */
-	if (posix_spawn_file_actions_adddup2(&file_actions, log, 2))
+	if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, log, 2)))
 		goto egress3;
 
 	/* Input file descriptors */
 	for (size_t iter = 0; iter < num; ++iter)
-		if (posix_spawn_file_actions_adddup2(&file_actions, in[iter], iter + 3))
+		if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, in[iter], iter + 3)))
 			goto egress3;
 
 	/* Source directory */
 	char *source = concat(SHARE_BASE, idstr, (char *) 0);
-	if (!source)
+	if (unlikely(!source))
 		goto egress3;
 
 	/* Check permissions */
-	if (access(source, R_OK | X_OK))
+	if (unlikely(access(source, R_OK | X_OK)))
 		goto egress4;
 
 	/* Cache directory */
 	char *cache = concat(CACHE_BASE, idstr, (char *) 0);
-	if (!cache)
+	if (unlikely(!cache))
 		goto egress4;
 
 	/* Create directory */
-	if (mkdir(cache, 0755) && errno != EEXIST)
+	if (unlikely(mkdir(cache, 0755) && errno != EEXIST)
 		goto egress5;
 
 	/* Check permissions */
-	if (access(cache, R_OK | W_OK | X_OK))
+	if (unlikely(access(cache, R_OK | W_OK | X_OK)))
 		goto egress5;
 
 	/* Temporary file directory */
 	char *temp = concat(TEMP_BASE, idstr, (char *) 0);
-	if (!temp)
+	if (unlikely(!temp))
 		goto egress5;
 
 	/* Create directory */
-	if (mkdir(temp, 0755) && errno != EEXIST)
+	if (unlikely(mkdir(temp, 0755) && errno != EEXIST)))
 		goto egress6;
 
 	/* Check permissions */
-	if (access(temp, R_OK | W_OK | X_OK))
+	if (unlikely(access(temp, R_OK | W_OK | X_OK)))
 		goto egress6;
 
 	/* Get number of input descriptors as hexadecimal ASCII string */
@@ -327,14 +328,14 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 
 	/* Writable directories */
 	char *sydwr = concat("SYDBOX_WRITE=/tmp/;" CACHE_BASE, idstr, ";" TEMP_BASE, idstr);
-	if (!sydwr)
+	if (unlikely(!sydwr))
 		goto egress6;
 
 	/* Set environment up */
 	char *envp[] = { sydwr, (char *) 0 };
 
 	/* Spawn sub‐process */
-	if (posix_spawnp(pid, "sydbox", &file_actions, (posix_spawnattr_t *) 0, argv, envp))
+	if (unlikely(posix_spawnp(pid, "sydbox", &file_actions, (posix_spawnattr_t *) 0, argv, envp)))
 		goto egress7;
 
 	result = true;
@@ -372,13 +373,13 @@ static int slave(const char *fpath, const struct stat *sb, int typeflag, struct 
 
 	switch (typeflag) {
 	case FTW_DP:
-		if (rmdir(fpath))
+		if (unlikely(rmdir(fpath)))
 			goto egress0;
 
 	case FTW_SL:
 	case FTW_F:
 	case FTW_SLN:
-		if (unlink(fpath))
+		if (unlikely(unlink(fpath)))
 			goto egress0;
 	}
 
@@ -414,18 +415,18 @@ bool cleanup(const uint8_t ident[restrict 32], bool cache) {
 	idstr[sizeof ident * 2] = '\0';
 
 	char *path = concat(TEMP_BASE, idstr, (char *) 0);
-	if (!path)
+	if (unlikely(!path))
 		goto egress0;
 
-	if (nftw(path, slave, 32, FTW_DEPTH | FTW_PHYS))
+	if (unlikely(nftw(path, slave, 32, FTW_DEPTH | FTW_PHYS)))
 		goto egress1;
 
 	if (cache) {
 		path = concat(CACHE_BASE, idstr, (char *) 0);
-		if (!path)
+		if (unlikely(!path))
 			goto egress0;
 
-		if (nftw(path, slave, 32, FTW_CHDIR | FTW_DEPTH | FTW_PHYS))
+		if (unlikely(nftw(path, slave, 32, FTW_CHDIR | FTW_DEPTH | FTW_PHYS)))
 			goto egress1;
 	}
 
