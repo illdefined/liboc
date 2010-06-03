@@ -138,19 +138,19 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	/* Convert identifier to hexadecimal ASCII string */
 	hexstr(idstr, ident, sizeof ident);
 
-	/* Generate transformer specifier path */
-	char *path = concat(SHARE_BASE, idstr, "/transformer", (char *) 0);
+	/* Generate TRE specifier path */
+	char *path = concat(SHARE_BASE, idstr, "/tre", (char *) 0);
 	if (unlikely(!path))
 		goto egress0;
 
-	/* Read transformer name */
+	/* Read TRE name */
 	char *name = dump(path, NAME_MAX);
 	if (unlikely(!name))
 		goto egress1;
 
 	free(path);
 
-	/* Generate transformer path */
+	/* Generate TRE path */
 	path = concat(EXEC_BASE, name, (char *) 0);
 	if (unlikely(!path))
 		goto egress2;
