@@ -21,7 +21,7 @@
 /**
  * \brief Base path for lock files.
  */
-#define LOCK_BASE "/var/cache/opencorpus/"
+#define LOCK_BASE "/var/lock/opencorpus/"
 
 /**
  * \brief Base path for log files.
