@@ -34,6 +34,11 @@
 #define SHARE_BASE "/usr/share/opencorpus/"
 
 /**
+ * \brief Base path for data storage.
+ */
+#define STORE_BASE "/var/db/opencorpus/"
+
+/**
  * \brief Base path for temporary files.
  */
 #define TEMP_BASE "/var/tmp/opencorpus/"
