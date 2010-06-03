@@ -144,14 +144,14 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		goto egress0;
 
 	/* Read TRE name */
-	char *name = dump(path, NAME_MAX);
-	if (unlikely(!name))
+	char *tre = dump(path, NAME_MAX);
+	if (unlikely(!tre))
 		goto egress1;
 
 	free(path);
 
 	/* Generate TRE path */
-	path = concat(EXEC_BASE, name, (char *) 0);
+	path = concat(EXEC_BASE, tre, (char *) 0);
 	if (unlikely(!path))
 		goto egress2;
 
@@ -200,7 +200,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		goto egress4;
 
 	/* Cache directory */
-	char *cache = concat(CACHE_BASE, idstr, (char *) 0);
+	char *cache = concat(CACHE_BASE, tre, (char *) 0);
 	if (unlikely(!cache))
 		goto egress4;
 
@@ -263,7 +263,7 @@ egress3:
 	posix_spawn_file_actions_destroy(&file_actions);
 
 egress2:
-	free(name);
+	free(tre);
 
 egress1:
 	free(path);
@@ -297,14 +297,13 @@ egress0:
 }
 
 /**
- * \brief Clean temporary directories up.
+ * \brief Clean temporary directory up.
  *
  * \param ident Transformation identifier.
- * \param cache Remove cached files?
  *
  * \return \c true if successful or \c false on failure.
  */
-bool cleanup(const uint8_t ident[restrict 32], bool cache) {
+bool cleanup(const uint8_t ident[restrict 32]) {
 	bool result = false;
 
 	char idstr[sizeof ident * 2 + 1];
@@ -318,15 +317,6 @@ bool cleanup(const uint8_t ident[restrict 32], bool cache) {
 
 	if (unlikely(nftw(path, slave, 32, FTW_DEPTH | FTW_PHYS)))
 		goto egress1;
-
-	if (cache) {
-		path = concat(CACHE_BASE, idstr, (char *) 0);
-		if (unlikely(!path))
-			goto egress0;
-
-		if (unlikely(nftw(path, slave, 32, FTW_CHDIR | FTW_DEPTH | FTW_PHYS)))
-			goto egress1;
-	}
 
 	result = true;
 
