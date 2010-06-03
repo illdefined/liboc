@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <ftw.h>
 #include <limits.h>
+#include <signal.h>
 #include <spawn.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -190,40 +191,64 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, in[iter], iter + 3)))
 			goto egress3;
 
+	/* Spawn attributes */
+	posix_spawnattr_t attr;
+	if (posix_spawnattr_init(&attr))
+		goto egress3;
+
+	if (posix_spawnattr_setflags(&attr, POSIX_SPAWN_SETSIGMASK | POSIX_SPAWN_SETSIGDEF))
+		goto egress4;
+
+	/* Empty signal mask */
+	sigset_t sigmask;
+	if (sigemptyset(&sigmask))
+		goto egress4;
+
+	if (posix_spawnattr_setsigmask(&attr, &sigmask))
+		goto egress4;
+
+	/* Default signal handlers */
+	sigset_t sigdefault;
+	if (sigfillset(&sigdefault))
+		goto egress4;
+
+	if (posix_spawnattr_setsigdefault(&attr, &sigdefault))
+		goto egress4;
+
 	/* Source directory */
 	char *source = concat(SHARE_BASE, idstr, (char *) 0);
 	if (unlikely(!source))
-		goto egress3;
+		goto egress4;
 
 	/* Check permissions */
 	if (unlikely(access(source, R_OK | X_OK)))
-		goto egress4;
+		goto egress5;
 
 	/* Cache directory */
 	char *cache = concat(CACHE_BASE, tre, (char *) 0);
 	if (unlikely(!cache))
-		goto egress4;
+		goto egress5;
 
 	/* Create directory */
 	if (unlikely(mkdir(cache, 0755) && errno != EEXIST))
-		goto egress5;
+		goto egress6;
 
 	/* Check permissions */
 	if (unlikely(access(cache, R_OK | W_OK | X_OK)))
-		goto egress5;
+		goto egress6;
 
 	/* Temporary file directory */
 	char *temp = concat(TEMP_BASE, idstr, (char *) 0);
 	if (unlikely(!temp))
-		goto egress5;
+		goto egress6;
 
 	/* Create directory */
 	if (unlikely(mkdir(temp, 0755) && errno != EEXIST))
-		goto egress6;
+		goto egress7;
 
 	/* Check permissions */
 	if (unlikely(access(temp, R_OK | W_OK | X_OK)))
-		goto egress6;
+		goto egress7;
 
 	/* Get number of input descriptors as hexadecimal ASCII string */
 	char narg[sizeof num * 2 + 1];
@@ -236,28 +261,31 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	/* Writable directories */
 	char *sydwr = concat("SYDBOX_WRITE=/tmp/;" CACHE_BASE, idstr, ";" TEMP_BASE, idstr);
 	if (unlikely(!sydwr))
-		goto egress6;
+		goto egress7;
 
 	/* Set environment up */
 	char *envp[] = { sydwr, (char *) 0 };
 
 	/* Spawn sub‐process */
-	if (unlikely(posix_spawnp(pid, "sydbox", &file_actions, (posix_spawnattr_t *) 0, argv, envp)))
-		goto egress7;
+	if (unlikely(posix_spawnp(pid, "sydbox", &file_actions, &attr, argv, envp)))
+		goto egress8;
 
 	result = true;
 
-egress7:
+egress8:
 	free(sydwr);
 
-egress6:
+egress7:
 	free(temp);
 
-egress5:
+egress6:
 	free(cache);
 
-egress4:
+egress5:
 	free(source);
+
+egress4:
+	posix_spawnattr_destroy(&attr);
 
 egress3:
 	posix_spawn_file_actions_destroy(&file_actions);
