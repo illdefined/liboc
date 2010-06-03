@@ -27,15 +27,16 @@ INCDIR   ?= include
 hdr      := skein.h storage.h transform.h trivial.h
 src      := skein.c storage.c string.c transform.c trivial.c
 obj      := $(src:.c=.o)
+tst      := skein
 
 check: .depend .sparse $(src)
-	for test in $(src:.c=); \
+	for test in $(tst); \
 	do \
 		$(CC) $(CPPFLAGS) -DTEST $(CFLAGS) -o $$test $$test.c && ./$$test || exit 1; \
 	done
 
 clean:
-	rm -f -- liboc.a liboc.so $(obj)
+	rm -f -- liboc.a liboc.so $(obj) $(tst)
 
 distclean: clean
 	rm -f -- .depend .sparse byteorder.o
