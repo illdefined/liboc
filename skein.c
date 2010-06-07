@@ -245,201 +245,205 @@ static const uint64_t test[][4] = {
 		be64(UINT64_C(0x2fce4272e1bb0aa9))
 	},
 	{
-		be64(UINT64_C(0xa6cabf2db01a6f27)),
-		be64(UINT64_C(0x424042936439928c)),
-		be64(UINT64_C(0xa83854935294df98)),
-		be64(UINT64_C(0x19e7c4c661fc319f))
+		be64(UINT64_C(0x0f42a0f1b17a98b1)),
+		be64(UINT64_C(0x8264fa62a1286caa)),
+		be64(UINT64_C(0xfa6039eb6b5a97c2)),
+		be64(UINT64_C(0x7a1648fe72a76423))
 	},
 	{
-		be64(UINT64_C(0x4cc83ba92b0397fa)),
-		be64(UINT64_C(0x74cb833495f6294c)),
-		be64(UINT64_C(0x3f8a64dc0760c1d9)),
-		be64(UINT64_C(0xb631e54b857b5fbe))
+		be64(UINT64_C(0xfdc9821a2dfc3bee)),
+		be64(UINT64_C(0x8ad7b3d46e9797db)),
+		be64(UINT64_C(0xaa482329b2f55042)),
+		be64(UINT64_C(0xd35129901e561181))
 	},
 	{
-		be64(UINT64_C(0x1856cc63d731759e)),
-		be64(UINT64_C(0x62d882b91bfd4bfb)),
-		be64(UINT64_C(0x3e2b166d0cae8baa)),
-		be64(UINT64_C(0x508bc5f025213a56))
+		be64(UINT64_C(0x42a017086ff15aab)),
+		be64(UINT64_C(0xcf2203c3dd6ff31e)),
+		be64(UINT64_C(0xc20171f32a038fcd)),
+		be64(UINT64_C(0x1a69dca1c23471c2))
 	},
 	{
-		be64(UINT64_C(0xa81745a0d15d1032)),
-		be64(UINT64_C(0x4a4450694123ed63)),
-		be64(UINT64_C(0x2ae36a69308b8512)),
-		be64(UINT64_C(0xf56ea53c4b74d118))
+		be64(UINT64_C(0x0267cc3514c4c38e)),
+		be64(UINT64_C(0xb25fef4d7a7711fd)),
+		be64(UINT64_C(0xb9cf666f17098f3d)),
+		be64(UINT64_C(0xda2b96429f382c78))
 	},
 	{
-		be64(UINT64_C(0x5e1e3302b3428502)),
-		be64(UINT64_C(0x1b9dad5f07e4f358)),
-		be64(UINT64_C(0x760adfc0c68b74c3)),
-		be64(UINT64_C(0x1ec6504e88f9ce04))
+		be64(UINT64_C(0x98144b8bbb065e7e)),
+		be64(UINT64_C(0xe7f7f0abee5a7d1b)),
+		be64(UINT64_C(0x8a7bb66cec1202dc)),
+		be64(UINT64_C(0x84f6a975db969b42))
 	},
 	{
-		be64(UINT64_C(0xa12f4afee0a4ed3f)),
-		be64(UINT64_C(0x22d3134dcd5fb331)),
-		be64(UINT64_C(0xe0bd71bbf3997a6d)),
-		be64(UINT64_C(0xcf7af21f2177e015))
+		be64(UINT64_C(0x322eabef955bea86)),
+		be64(UINT64_C(0xfd1458451900ecfa)),
+		be64(UINT64_C(0x43e51a3ccdbc3106)),
+		be64(UINT64_C(0xc5bd502ceaa4c5ec))
 	},
 	{
-		be64(UINT64_C(0xdffdac63d4caa4a3)),
-		be64(UINT64_C(0xeda096e86b016aa5)),
-		be64(UINT64_C(0x214c01f625b131e3)),
-		be64(UINT64_C(0x73e3f2d0f68e070a))
+		be64(UINT64_C(0x05362b92b65091c4)),
+		be64(UINT64_C(0x615e0d5ab93cb1b8)),
+		be64(UINT64_C(0xb935448954a78a21)),
+		be64(UINT64_C(0x6a9454a19165dadd))
 	},
 	{
-		be64(UINT64_C(0x70035edf235a449c)),
-		be64(UINT64_C(0x4336b8222df889fb)),
-		be64(UINT64_C(0x017cfa7035770d0f)),
-		be64(UINT64_C(0xd98f6787acc97b6c))
+		be64(UINT64_C(0x164b38d4a65f8ae9)),
+		be64(UINT64_C(0x4c7beadcdcff6941)),
+		be64(UINT64_C(0x71db0fa6b6c51c1e)),
+		be64(UINT64_C(0xeeb69ce699e5f91f))
 	},
 	{
-		be64(UINT64_C(0xd7331f1ffebb0dd8)),
-		be64(UINT64_C(0x7bbd8bda77c6930f)),
-		be64(UINT64_C(0x0e162ef752cb127f)),
-		be64(UINT64_C(0x9f2acfdf1ee7ebc3))
+		be64(UINT64_C(0xedd6aa093dedd935)),
+		be64(UINT64_C(0x711b6dbdfa10d5f5)),
+		be64(UINT64_C(0xcdf01d8e62370337)),
+		be64(UINT64_C(0x51d858aa957a3bb4))
 	},
 	{
-		be64(UINT64_C(0x8e6c4c9e736429a0)),
-		be64(UINT64_C(0x4a51a0e998845204)),
-		be64(UINT64_C(0x7fb5a29cc10dfa6b)),
-		be64(UINT64_C(0x7b15ddbe67ec6db9))
+		be64(UINT64_C(0xc3951f697417cb12)),
+		be64(UINT64_C(0x23e0a0d014a836d4)),
+		be64(UINT64_C(0x46299c16e6e31f6e)),
+		be64(UINT64_C(0xe19585f629bcc27a))
 	},
 	{
-		be64(UINT64_C(0x58e64ac3fbdf57fe)),
-		be64(UINT64_C(0x42ab45350d59226c)),
-		be64(UINT64_C(0x893ed29f0dcb3de5)),
-		be64(UINT64_C(0xcd1278c38824ca0b))
+		be64(UINT64_C(0x4c2a142530deb3bf)),
+		be64(UINT64_C(0x07911ffd38b91943)),
+		be64(UINT64_C(0x8b6c527c889aa109)),
+		be64(UINT64_C(0xfe40024edd9ca495))
 	},
 	{
-		be64(UINT64_C(0x2ac2361fbe94db69)),
-		be64(UINT64_C(0xf14a5c0e4b947201)),
-		be64(UINT64_C(0x1c7735286722eead)),
-		be64(UINT64_C(0x6a54b44f72b6edfb))
+		be64(UINT64_C(0x376cdea95646893e)),
+		be64(UINT64_C(0x7080f74e4c372a09)),
+		be64(UINT64_C(0x2f82fa9eb8970d76)),
+		be64(UINT64_C(0xd6b7001ae15b8990))
 	},
 	{
-		be64(UINT64_C(0xda001660604856b1)),
-		be64(UINT64_C(0xf9aeb46206ca37c4)),
-		be64(UINT64_C(0x691acbd4e8a385fe)),
-		be64(UINT64_C(0xcbefb2a8bed2cd77))
+		be64(UINT64_C(0xa08c03dbd2e58cad)),
+		be64(UINT64_C(0x21b326bbe936da24)),
+		be64(UINT64_C(0x2d9d988db2c48181)),
+		be64(UINT64_C(0xb3be15c8626e2d2a))
 	},
 	{
-		be64(UINT64_C(0xea052923e443e68a)),
-		be64(UINT64_C(0x0432d6c0d3470827)),
-		be64(UINT64_C(0xcb1fd44758dfbd5d)),
-		be64(UINT64_C(0xcf1d5f362f9450fa)),
+		be64(UINT64_C(0x42033c7af61286b1)),
+		be64(UINT64_C(0xfdc4a6049f01a2d8)),
+		be64(UINT64_C(0xf50f86bd47c60a7b)),
+		be64(UINT64_C(0xa3b7eb52ba46c97d))
 	},
 	{
-		be64(UINT64_C(0x3f4bceac06ffebac)),
-		be64(UINT64_C(0x005bf6acde69b7b4)),
-		be64(UINT64_C(0xa3d714422e848741)),
-		be64(UINT64_C(0x538ab6dfe2a86564))
+		be64(UINT64_C(0x8cb67ac7189d99e8)),
+		be64(UINT64_C(0x6d49980788240863)),
+		be64(UINT64_C(0x08d5e4f3d46ad757)),
+		be64(UINT64_C(0x7588bcd6efb6a3e4))
 	},
 	{
-		be64(UINT64_C(0xf6c83970cf27d7c1)),
-		be64(UINT64_C(0xc6fba88bd8dbdc6e)),
-		be64(UINT64_C(0x739eec4f7454aef0)),
-		be64(UINT64_C(0x683ac52a2ae28d4e))
+		be64(UINT64_C(0x2bf5d34ceeb07493)),
+		be64(UINT64_C(0xcce70ed68db023bf)),
+		be64(UINT64_C(0x5016586ae207f04e)),
+		be64(UINT64_C(0x1a883a89606a2a68))
 	},
 	{
-		be64(UINT64_C(0x9d40aca56dd9db78)),
-		be64(UINT64_C(0x9a38a8e28fba249e)),
-		be64(UINT64_C(0x2cf58c912259157c)),
-		be64(UINT64_C(0xd8c574e3a18dfe31))
+		be64(UINT64_C(0x186722d4a0b0c885)),
+		be64(UINT64_C(0xc03d6186d461576b)),
+		be64(UINT64_C(0x37beea117071d2f8)),
+		be64(UINT64_C(0x37691b2f57204acf))
 	},
 	{
-		be64(UINT64_C(0x87f0835b8730bf38)),
-		be64(UINT64_C(0x81b796e16abdbe27)),
-		be64(UINT64_C(0x8239ac3b6858d532)),
-		be64(UINT64_C(0x92be40d20ff9fbeb))
+		be64(UINT64_C(0x06a0d76cc0f36053)),
+		be64(UINT64_C(0x07a0286a11430bc7)),
+		be64(UINT64_C(0x26fad97f4bad9247)),
+		be64(UINT64_C(0x8a8488d7fc6886fa))
 	},
 	{
-		be64(UINT64_C(0xcf61568d48e14c47)),
-		be64(UINT64_C(0x119b31f1af8f22da)),
-		be64(UINT64_C(0x00c2730a01ed120c)),
-		be64(UINT64_C(0xebb27ff3ac4fabed))
+		be64(UINT64_C(0xa252ef865e16ce4c)),
+		be64(UINT64_C(0xfd205489817bec26)),
+		be64(UINT64_C(0xb4e92d49bfef1d07)),
+		be64(UINT64_C(0xa1391ba7874c5399))
 	},
 	{
-		be64(UINT64_C(0x7cc6498224bfd5d1)),
-		be64(UINT64_C(0x2e8da97599488d06)),
-		be64(UINT64_C(0xbcc1d28c08914761)),
-		be64(UINT64_C(0xba7f86ca16c96f1a))
+		be64(UINT64_C(0x504af2d75642d5d8)),
+		be64(UINT64_C(0xb514b02f56779460)),
+		be64(UINT64_C(0x651f2dc98e626f98)),
+		be64(UINT64_C(0xa713868f54656927))
 	},
 	{
-		be64(UINT64_C(0xf390b63e0737fe99)),
-		be64(UINT64_C(0x766bcd538733a0e2)),
-		be64(UINT64_C(0x27d0a2c95b3d16cd)),
-		be64(UINT64_C(0x6005f031744ee4f1))
+		be64(UINT64_C(0x0c346c52357840f6)),
+		be64(UINT64_C(0x48f9582166ef133d)),
+		be64(UINT64_C(0x3cc0b5999144cf59)),
+		be64(UINT64_C(0x92920ed531a64f89))
 	},
 	{
-		be64(UINT64_C(0x92679e52ff50629f)),
-		be64(UINT64_C(0xc5aeb0b91e200a40)),
-		be64(UINT64_C(0x813de7c1e6064701)),
-		be64(UINT64_C(0x1b5eba3db53ba1ab))
+		be64(UINT64_C(0x3e133027ea222f03)),
+		be64(UINT64_C(0xff7a567d6e08e7b7)),
+		be64(UINT64_C(0x8f53145e611ed499)),
+		be64(UINT64_C(0xad995f9ff2fa4842))
 	},
 	{
-		be64(UINT64_C(0x8f873815a8601814)),
-		be64(UINT64_C(0xafb63ca4bee9a44b)),
-		be64(UINT64_C(0x8337295b936d464e)),
-		be64(UINT64_C(0x509ad34eb648e10b))
+		be64(UINT64_C(0x76704c3e2e79a4f7)),
+		be64(UINT64_C(0xee65dff985892e7b)),
+		be64(UINT64_C(0x50fbf726cc3a5dd8)),
+		be64(UINT64_C(0xe72bd8b52fa7777c))
 	},
 	{
-		be64(UINT64_C(0x5acebd60d88c56ef)),
-		be64(UINT64_C(0x3e224a535eb1b883)),
-		be64(UINT64_C(0x14cca855f4ae114a)),
-		be64(UINT64_C(0x71338649fa1c23bd))
+		be64(UINT64_C(0xa3cbdd7826739afe)),
+		be64(UINT64_C(0xb6e2a594e3f202ba)),
+		be64(UINT64_C(0xceefaf829c4b756b)),
+		be64(UINT64_C(0xac5b138b6167a171))
 	},
 	{
-		be64(UINT64_C(0xe07af5e26b9e3594)),
-		be64(UINT64_C(0x3a99231bf9f892d1)),
-		be64(UINT64_C(0xf6b55f9951b22963)),
-		be64(UINT64_C(0x996353fc170da4c5))
+		be64(UINT64_C(0x85a28a0794702153)),
+		be64(UINT64_C(0xd6c24f9f873b4b6f)),
+		be64(UINT64_C(0x9d0910e950cc2c89)),
+		be64(UINT64_C(0xc928da7db513d005))
 	},
 	{
-		be64(UINT64_C(0xb5b22057e67a776e)),
-		be64(UINT64_C(0x3312623653c9bb90)),
-		be64(UINT64_C(0x6481b28e583ec6d1)),
-		be64(UINT64_C(0x3944f5430d036520))
+		be64(UINT64_C(0xac9c6c4a1d3f0c0e)),
+		be64(UINT64_C(0x447b8b476ec59dd8)),
+		be64(UINT64_C(0x398910a326efb7ed)),
+		be64(UINT64_C(0xd08fc2fa39e0aa72))
 	},
 	{
-		be64(UINT64_C(0xb14765176dfabfba)),
-		be64(UINT64_C(0x2986ef009d546321)),
-		be64(UINT64_C(0x60a2b8b832a5fe41)),
-		be64(UINT64_C(0xaabec957e21d5abc))
+		be64(UINT64_C(0xf8fa36dc114ce020)),
+		be64(UINT64_C(0x09278dc1dd6863c5)),
+		be64(UINT64_C(0xd0b548255f6e2a5c)),
+		be64(UINT64_C(0xf82262e9f90f8322))
 	},
 	{
-		be64(UINT64_C(0x1b8ca31f8cc1bd7e)),
-		be64(UINT64_C(0x98c49168d857a5ec)),
-		be64(UINT64_C(0xf4c1868dc31c8e39)),
-		be64(UINT64_C(0x814beb8807c7c92d))
+		be64(UINT64_C(0x0acbc82acb6ceca7)),
+		be64(UINT64_C(0x565480a04dc1b037)),
+		be64(UINT64_C(0x6822517e496f051e)),
+		be64(UINT64_C(0xb1635de6d775492b))
 	},
 	{
-		be64(UINT64_C(0x449f8c003db3f95b)),
-		be64(UINT64_C(0x33c7abafe7dbf3ca)),
-		be64(UINT64_C(0x159e691f6a53a1cb)),
-		be64(UINT64_C(0xce3f73a41b111cf4))
+		be64(UINT64_C(0x6805657b92ae41e4)),
+		be64(UINT64_C(0xc101b6eb3b77df44)),
+		be64(UINT64_C(0x5018091421be82ac)),
+		be64(UINT64_C(0x4837053bce672e3a))
 	},
 	{
-		be64(UINT64_C(0x515316d3de430956)),
-		be64(UINT64_C(0x060dc22926655ed3)),
-		be64(UINT64_C(0x8fe5cb84a29d743d)),
-		be64(UINT64_C(0x2a968fd5416323fd))
+		be64(UINT64_C(0xd5870851133a6489)),
+		be64(UINT64_C(0x16aaf66713851d49)),
+		be64(UINT64_C(0x2f9d7c979f92f6fb)),
+		be64(UINT64_C(0xcf63b8b5c9c83074))
 	},
 	{
-		be64(UINT64_C(0x79fd17f877eb80ba)),
-		be64(UINT64_C(0x5894601d344adbe2)),
-		be64(UINT64_C(0xc7b47a5473145746)),
-		be64(UINT64_C(0x9ae5948c7db9537a))
+		be64(UINT64_C(0x1d32964df6d74c54)),
+		be64(UINT64_C(0xe29026ee8e7a1500)),
+		be64(UINT64_C(0x73dbe2162b7e5207)),
+		be64(UINT64_C(0x1d078f3ace69699b))
 	}
 };
 
 /**
- * \brief Null vector.
+ * \brief Test data.
  */
-static const uint8_t null[] = {
-	0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0
+static const uint8_t data[] = {
+	UINT8_C(0xd3), UINT8_C(0x8e), UINT8_C(0x48), UINT8_C(0x6a),
+	UINT8_C(0xeb), UINT8_C(0xfb), UINT8_C(0x4d), UINT8_C(0x51),
+	UINT8_C(0x5b), UINT8_C(0x48), UINT8_C(0x60), UINT8_C(0xb9),
+	UINT8_C(0xa5), UINT8_C(0x65), UINT8_C(0x19), UINT8_C(0xbe),
+	UINT8_C(0xa8), UINT8_C(0x41), UINT8_C(0xf4), UINT8_C(0xf1),
+	UINT8_C(0x31), UINT8_C(0x59), UINT8_C(0x59), UINT8_C(0x2a),
+	UINT8_C(0xc5), UINT8_C(0x86), UINT8_C(0x20), UINT8_C(0xee),
+	UINT8_C(0xc0), UINT8_C(0x7c), UINT8_C(0x9c), UINT8_C(0xdf)
 };
 
 /**
@@ -448,12 +452,12 @@ static const uint8_t null[] = {
  * \return \c EXIT_SUCCESS if successful or \c EXIT_FAILURE on failure.
  */
 int main(void) {
-	assert(sizeof null + 1 >= TESTS);
+	assert(sizeof data + 1 >= TESTS);
 
 	for (size_t size = 0; size < TESTS; ++size) {
 		uint8_t hash[SKEIN_BYTES];
 
-		skein(hash, null, size);
+		skein(hash, data, size);
 
 		if (unlikely(memcmp(hash, test[size], SKEIN_BYTES))) {
 			fprintf(stderr, "Hash differs from test vector %lu!\n0x", (unsigned long) size);
