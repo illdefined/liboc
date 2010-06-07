@@ -466,7 +466,7 @@ int main(void) {
 
 			/* Print test vector */
 			for (size_t byte = 0; byte < SKEIN_BYTES; ++byte)
-				fprintf(stderr, "%02" PRIx8, ((uint8_t *) hash)[byte]);
+				fprintf(stderr, "%02" PRIx8, ((uint8_t *) test[size])[byte]);
 
 			fputc('\n', stderr);
 
