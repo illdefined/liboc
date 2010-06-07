@@ -84,7 +84,7 @@ static void skein_block(struct skein *restrict ctx, const uint8_t *restrict mesg
 			block[word] = 0;
 
 			for (size_t byte = 0; byte < sizeof block[word]; ++byte)
-				block[word] |= mesg[word * sizeof block[word] + byte] << byte * 8;
+				block[word] |= (uint64_t) mesg[word * sizeof block[word] + byte] << byte * 8;
 		}
 
 		/* First full key injection */
