@@ -80,9 +80,12 @@ static void skein_block(struct skein *restrict ctx, const uint8_t *restrict mesg
 		}
 
 		/* Get message block in little‐endian byte‐order */
-		for (size_t word = 0; word < SKEIN_WORDS; ++word)
+		for (size_t word = 0; word < SKEIN_WORDS; ++word) {
+			block[word] = 0;
+
 			for (size_t kter = 0; kter < sizeof block[word]; ++kter)
-				block[word] = mesg[word * sizeof block[word] + kter] << kter * 8;
+				block[word] |= mesg[word * sizeof block[word] + kter] << kter * 8;
+		}
 
 		/* First full key injection */
 		for (size_t word = 0; word < SKEIN_WORDS; ++word)
