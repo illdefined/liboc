@@ -192,3 +192,35 @@ egress1:
 egress0:
 	return result;
 }
+
+
+/**
+ * \brief Efface object.
+ *
+ * \param ident Object identifier.
+ *
+ * \return \c true if successful or \c false on failure.
+ */
+bool efface(const uint8_t ident[restrict 32]) {
+	bool result = false;
+
+	char idstr[sizeof ident * 2 + 1];
+
+	/* Convert identifier to hexadecimal ASCII string */
+	inthexs(idstr, ident, sizeof ident);
+
+	char *path = concat(STORE_BASE, idstr, ".xz", (char *) 0);
+	if (unlikely(!path))
+		goto egress0;
+
+	if (unlikely(unlink(path)))
+		goto egress1;
+
+	result = true;
+
+egress1:
+	free(path);
+
+egress0:
+	return result;
+}

@@ -7,5 +7,6 @@
 
 extern bool retrieve(pid_t *restrict, const uint8_t[restrict 32], int, int);
 extern bool deposit(pid_t *restrict, const uint8_t[restrict 32], int, int);
+extern bool efface(const uint8_t[restrict 32]);
 
 #endif
