@@ -258,8 +258,8 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	/* Set argument vector up */
 	char *argv[] = { "sydbox", "-C", "-L", path, source, cache, temp, narg, (char *) 0 };
 
-	/* Writable directories */
-	char *sydwr = concat("SYDBOX_WRITE=/tmp/;" CACHE_BASE, idstr, ";" TEMP_BASE, idstr);
+	/* Writable directories (FIXME: Make this configurable) */
+	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/proc/self/attr;/proc/self/fd;/proc/self/task;/tmp;" CACHE_BASE, idstr, ";" TEMP_BASE, idstr);
 	if (unlikely(!sydwr))
 		goto egress7;
 
