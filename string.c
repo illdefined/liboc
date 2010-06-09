@@ -149,10 +149,11 @@ bool hexsint(void *restrict dest, const char *restrict src, size_t size) {
 	for (size_t idx = 0; idx < size; ++idx) {
 		/* Check character range */
 		for (size_t byte = 0; byte < 2; ++byte) {
-			if (src[2 * idx + byte] < '0' ||
+			if (unlikely(
+				src[2 * idx + byte] < '0' ||
 				src[2 * idx + byte] > '9' && src[2 * idx + byte] < 'A' ||
 				src[2 * idx + byte] > 'F' && src[2 * idx + byte] < 'a' ||
-				src[2 * idx + byte] > 'f') {
+				src[2 * idx + byte] > 'f')) {
 				errno = EINVAL;
 				goto egress0;
 			}
