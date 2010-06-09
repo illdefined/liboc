@@ -137,7 +137,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	char idstr[sizeof ident * 2 + 1];
 
 	/* Convert identifier to hexadecimal ASCII string */
-	hexstr(idstr, ident, sizeof ident);
+	inthexs(idstr, ident, sizeof ident);
 
 	/* Generate TRE specifier path */
 	char *path = concat(SHARE_BASE, idstr, "/tre", (char *) 0);
@@ -253,7 +253,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	/* Get number of input descriptors as hexadecimal ASCII string */
 	char narg[sizeof num * 2 + 1];
 	num = be16(num);
-	hexstr(narg, &num, sizeof num);
+	inthexs(narg, &num, sizeof num);
 
 	/* Set argument vector up */
 	char *argv[] = { "sydbox", "-C", "-L", path, source, cache, temp, narg, (char *) 0 };
@@ -337,7 +337,7 @@ bool cleanup(const uint8_t ident[restrict 32]) {
 	char idstr[sizeof ident * 2 + 1];
 
 	/* Convert identifier to hexadecimal ASCII string */
-	hexstr(idstr, ident, sizeof ident);
+	inthexs(idstr, ident, sizeof ident);
 
 	char *path = concat(TEMP_BASE, idstr, (char *) 0);
 	if (unlikely(!path))
