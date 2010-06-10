@@ -8,6 +8,7 @@
 
 #include "egress.h"
 #include "expect.h"
+#include "function.h"
 #include "string.h"
 
 /**
@@ -17,7 +18,7 @@
  *
  * \return Hexadecimal ASCII character.
  */
-static inline uint8_t inthexc(uint8_t nibble) {
+static inline constant uint8_t inthexc(uint8_t nibble) {
 	uint8_t result;
 
 	assert(nibble <= 0xF);
@@ -71,7 +72,7 @@ void inthexs(char *restrict buf, const void *restrict src, size_t size) {
  *
  * \return 4bit integer.
  */
-static inline uint8_t hexcint(uint8_t nibble) {
+static inline constant uint8_t hexcint(uint8_t nibble) {
 	uint8_t result;
 
 	assert(nibble >= '0' && nibble <= '9' || nibble >= 'A' && nibble <= 'F' || nibble >= 'a' && nibble <= 'f');
