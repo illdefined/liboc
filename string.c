@@ -70,10 +70,10 @@ void inthexs(char *restrict buf, const void *restrict src, size_t size) {
 
 	for (size_t idx = 0; idx < size; ++idx) {
 		/* High nibble */
-		buf[idx + 0] = inthexc(num[idx] / UINT8_C(0x10));
+		buf[2 * idx + 0] = inthexc(num[idx] / UINT8_C(0x10));
 
 		/* Low nibble */
-		buf[idx + 1] = inthexc(num[idx] % UINT8_C(0x10));
+		buf[2 * idx + 1] = inthexc(num[idx] % UINT8_C(0x10));
 	}
 
 	/* Zero‐terminate result */
