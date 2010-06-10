@@ -109,10 +109,10 @@ egress0:
 bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int out, const int in[restrict], uint16_t num) {
 	prime(bool);
 
-	char idstr[sizeof ident * 2 + 1];
+	char idstr[32 * 2 + 1];
 
 	/* Convert identifier to hexadecimal ASCII string */
-	inthexs(idstr, ident, sizeof ident);
+	inthexs(idstr, ident, 32);
 
 	/* Generate TRE specifier path */
 	char *path = concat(SHARE_BASE, idstr, "/tre", (char *) 0);
@@ -302,10 +302,10 @@ egress0:
 bool cleanup(const uint8_t ident[restrict 32]) {
 	prime(bool);
 
-	char idstr[sizeof ident * 2 + 1];
+	char idstr[32 * 2 + 1];
 
 	/* Convert identifier to hexadecimal ASCII string */
-	inthexs(idstr, ident, sizeof ident);
+	inthexs(idstr, ident, 32);
 
 	char *path = concat(TEMP_BASE, idstr, (char *) 0);
 	if (unlikely(!path))
