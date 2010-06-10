@@ -31,10 +31,10 @@
 bool retrieve(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int out) {
 	prime(bool);
 
-	char idstr[sizeof ident * 2 + 1];
+	char idstr[32 * 2 + 1];
 
 	/* Convert identifier to hexadecimal ASCII string */
-	inthexs(idstr, ident, sizeof ident);
+	inthexs(idstr, ident, 32);
 
 	char *path = concat(STORE_BASE, idstr, ".xz", (char *) 0);
 	if (unlikely(!path))
@@ -119,10 +119,10 @@ egress0:
 bool deposit(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int in) {
 	prime(bool);
 
-	char idstr[sizeof ident * 2 + 1];
+	char idstr[32 * 2 + 1];
 
 	/* Convert identifier to hexadecimal ASCII string */
-	inthexs(idstr, ident, sizeof ident);
+	inthexs(idstr, ident, 32);
 
 	char *path = concat(STORE_BASE, idstr, ".xz", (char *) 0);
 	if (unlikely(!path))
