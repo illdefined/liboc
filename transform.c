@@ -20,6 +20,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "egress.h"
 #include "endian.h"
 #include "expect.h"
 #include "path.h"
@@ -38,42 +39,37 @@
  * \return Pointer to buffer or <tt>(char *) 0</tt> on failure.
  */
 static char *dump(const char *restrict path, size_t max) {
-	char *result = (char *) 0;
+	prime(char *);
 
 	/* Open file in read‐only mode */
 	int fd = open(path, O_RDONLY);
 	if (unlikely(fd < 0))
-		goto egress0;
+		egress(0, (char *) 0, errno);
 
 	/* Determine file size */
 	struct stat st;
 	if (unlikely(fstat(fd, &st)))
-		goto egress1;
+		egress(1, (char *) 0, errno);
 
-	if (unlikely(st.st_size > max)) {
-		errno = EFBIG;
-		goto egress1;
-	}
+	if (unlikely(st.st_size > max))
+		egress(1, (char *) 0, EFBIG);
 
 	/* Allocate file buffer */
 	char *buf = malloc(st.st_size + 1);
 	if (unlikely(!buf))
-		goto egress1;
+		egress(1, (char *) 0, errno);
 
 	/* Dump file */
 	ssize_t ret = read(fd, buf, st.st_size + 1);
 	if (unlikely(ret < 0))
-		goto egress2;
-	else if (unlikely(ret > st.st_size)) {
-		errno = EFBIG;
-		goto egress2;
-	}
+		egress(2, (char *) 0, errno);
+	else if (unlikely(ret > st.st_size))
+		egress(2, (char *) 0, EFBIG);
 
 	/* Zero‐terminate buffer */
 	buf[ret] = '\0';
 
-	result = buf;
-	goto egress1;
+	egress(1, buf, errno);
 
 egress2:
 	free(buf);
@@ -82,7 +78,7 @@ egress1:
 	close(fd);
 
 egress0:
-	return result;
+	final();
 }
 
 /**
@@ -98,25 +94,22 @@ egress0:
  * \return Pointer to the new path name or <tt>(char *) 0</tt> on failure.
  */
 static char *canonicalise(const char *restrict prefix, const char *restrict path) {
-	char *result = (char *) 0;
+	prime(char *);
 
 	char *canon = realpath(path, (char *) 0);
 	if (unlikely(!canon))
-		goto egress0;
+		egress(0, (char *) 0, errno);
 
-	if (unlikely(strncmp(canon, prefix, strlen(prefix)))) {
-		errno = EPERM;
-		goto egress1;
-	}
+	if (unlikely(strncmp(canon, prefix, strlen(prefix))))
+		egress(1, (char *) 0, EPERM);
 
-	result = canon;
-	goto egress0;
+	egress(0, canon, errno);
 
 egress1:
 	free(canon);
 
 egress0:
-	return result;
+	final();
 }
 
 /**
@@ -132,7 +125,7 @@ egress0:
  * \return \c true if successful or \c false on failure.
  */
 bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int out, const int in[restrict], uint16_t num) {
-	bool result = false;
+	prime(bool);
 
 	char idstr[sizeof ident * 2 + 1];
 
@@ -142,113 +135,113 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	/* Generate TRE specifier path */
 	char *path = concat(SHARE_BASE, idstr, "/tre", (char *) 0);
 	if (unlikely(!path))
-		goto egress0;
+		egress(0, false, errno);
 
 	/* Read TRE name */
 	char *tre = dump(path, NAME_MAX);
 	if (unlikely(!tre))
-		goto egress1;
+		egress(1, false, errno);
 
 	free(path);
 
 	/* Generate TRE path */
 	path = concat(EXEC_BASE, tre, (char *) 0);
 	if (unlikely(!path))
-		goto egress2;
+		egress(2, false, errno);
 
 	/* Validate path */
 	char *canon = canonicalise(EXEC_BASE, path);
 	if (unlikely(!canon))
-		goto egress2;
+		egress(2, false, errno);
 
 	free(path);
 	path = canon;
 
 	/* Check permissions */
 	if (unlikely(access(path, X_OK)))
-		goto egress2;
+		egress(2, false, errno);
 
 	posix_spawn_file_actions_t file_actions;
 
 	/* Set file descriptors up */
 	if (unlikely(posix_spawn_file_actions_init(&file_actions)))
-		goto egress2;
+		egress(2, false, errno);
 
 	/* Standard input will not be used */
 	if (unlikely(posix_spawn_file_actions_addopen(&file_actions, 0, "/dev/null", O_RDONLY, 0)))
-		goto egress3;
+		egress(3, false, errno);
 
 	/* Standard out will be used for the output tree */
 	if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, out, 1)))
-		goto egress3;
+		egress(3, false, errno);
 
 	/* Standard error will be used for logging */
 	if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, log, 2)))
-		goto egress3;
+		egress(3, false, errno);
 
 	/* Input file descriptors */
 	for (size_t iter = 0; iter < num; ++iter)
 		if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, in[iter], iter + 3)))
-			goto egress3;
+			egress(3, false, errno);
 
 	/* Spawn attributes */
 	posix_spawnattr_t attr;
 	if (posix_spawnattr_init(&attr))
-		goto egress3;
+		egress(3, false, errno);
 
 	if (posix_spawnattr_setflags(&attr, POSIX_SPAWN_SETSIGMASK | POSIX_SPAWN_SETSIGDEF))
-		goto egress4;
+		egress(4, false, errno);
 
 	/* Empty signal mask */
 	sigset_t sigmask;
 	if (sigemptyset(&sigmask))
-		goto egress4;
+		egress(4, false, errno);
 
 	if (posix_spawnattr_setsigmask(&attr, &sigmask))
-		goto egress4;
+		egress(4, false, errno);
 
 	/* Default signal handlers */
 	sigset_t sigdefault;
 	if (sigfillset(&sigdefault))
-		goto egress4;
+		egress(4, false, errno);
 
 	if (posix_spawnattr_setsigdefault(&attr, &sigdefault))
-		goto egress4;
+		egress(4, false, errno);
 
 	/* Source directory */
 	char *source = concat(SHARE_BASE, idstr, (char *) 0);
 	if (unlikely(!source))
-		goto egress4;
+		egress(4, false, errno);
 
 	/* Check permissions */
 	if (unlikely(access(source, R_OK | X_OK)))
-		goto egress5;
+		egress(5, false, errno);
 
 	/* Cache directory */
 	char *cache = concat(CACHE_BASE, tre, (char *) 0);
 	if (unlikely(!cache))
-		goto egress5;
+		egress(5, false, errno);
 
 	/* Create directory */
 	if (unlikely(mkdir(cache, 0755) && errno != EEXIST))
-		goto egress6;
+		egress(6, false, errno);
 
 	/* Check permissions */
 	if (unlikely(access(cache, R_OK | W_OK | X_OK)))
-		goto egress6;
+		egress(6, false, errno);
 
 	/* Temporary file directory */
 	char *temp = concat(TEMP_BASE, idstr, (char *) 0);
 	if (unlikely(!temp))
-		goto egress6;
+		egress(6, false, errno);
 
 	/* Create directory */
 	if (unlikely(mkdir(temp, 0755) && errno != EEXIST))
-		goto egress7;
+		egress(7, false, errno);
 
 	/* Check permissions */
 	if (unlikely(access(temp, R_OK | W_OK | X_OK)))
-		goto egress7;
+		egress(7, false, errno);
 
 	/* Get number of input descriptors as hexadecimal ASCII string */
 	char narg[sizeof num * 2 + 1];
@@ -261,16 +254,16 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	/* Writable directories (FIXME: Make this configurable) */
 	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/proc/self/attr;/proc/self/fd;/proc/self/task;/tmp;" CACHE_BASE, idstr, ";" TEMP_BASE, idstr);
 	if (unlikely(!sydwr))
-		goto egress7;
+		egress(7, false, errno);
 
 	/* Set environment up */
 	char *envp[] = { sydwr, (char *) 0 };
 
 	/* Spawn sub‐process */
 	if (unlikely(posix_spawnp(pid, "sydbox", &file_actions, &attr, argv, envp)))
-		goto egress8;
+		egress(8, false, errno);
 
-	result = true;
+	egress(8, true, errno);
 
 egress8:
 	free(sydwr);
@@ -297,31 +290,31 @@ egress1:
 	free(path);
 
 egress0:
-	return result;
+	final();
 }
 
 /**
  * \brief Cleanup slave routine.
  */
 static int slave(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf) {
-	int result = -1;
+	prime(int);
 
 	switch (typeflag) {
 	case FTW_DP:
 		if (unlikely(rmdir(fpath)))
-			goto egress0;
+			egress(0, -1, errno);
 
 	case FTW_SL:
 	case FTW_F:
 	case FTW_SLN:
 		if (unlikely(unlink(fpath)))
-			goto egress0;
+			egress(0, -1, errno);
 	}
 
-	result = 0;
+	egress(0, 0, errno);
 
 egress0:
-	return result;
+	final();
 }
 
 /**
@@ -332,7 +325,7 @@ egress0:
  * \return \c true if successful or \c false on failure.
  */
 bool cleanup(const uint8_t ident[restrict 32]) {
-	bool result = false;
+	prime(bool);
 
 	char idstr[sizeof ident * 2 + 1];
 
@@ -341,16 +334,16 @@ bool cleanup(const uint8_t ident[restrict 32]) {
 
 	char *path = concat(TEMP_BASE, idstr, (char *) 0);
 	if (unlikely(!path))
-		goto egress0;
+		egress(0, false, errno);
 
 	if (unlikely(nftw(path, slave, 32, FTW_DEPTH | FTW_PHYS)))
-		goto egress1;
+		egress(1, false, errno);
 
-	result = true;
+	egress(1, true, errno);
 
 egress1:
 	free(path);
 
 egress0:
-	return result;
+	final();
 }

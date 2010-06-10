@@ -10,6 +10,7 @@
 
 #include <tchdb.h>
 
+#include "egress.h"
 #include "expect.h"
 #include "path.h"
 #include "trivial.h"
@@ -25,26 +26,27 @@
  * \return \c true if successful or \c false on failure.
  */
 bool trivial_init(struct trivial *restrict ctx) {
-	bool result = false;
+	prime(bool);
+
+	/* FIXME: Error codes */
 
 	ctx->hdb = tchdbnew();
 	if (unlikely(!ctx->hdb))
-		goto egress0;
+		egress(0, false, errno);
 
 	if (unlikely(!tchdbsetcache(ctx->hdb, TRIVIAL_CACHE)))
-		goto egress1;
+		egress(1, false, errno);
 
 	if (unlikely(!tchdbopen(ctx->hdb, TRIVIAL_PATH, HDBOREADER)))
-		goto egress1;
+		egress(1, false, errno);
 
-	result = true;
-	goto egress0;
+	egress(0, true, errno);
 
 egress1:
 	tchdbdel(ctx->hdb);
 
 egress0:
-	return result;
+	final();
 }
 
 /**
@@ -57,15 +59,17 @@ egress0:
  * \return \c true if successful or \c false on failure.
  */
 bool trivial_resolve(struct trivial *restrict ctx, uint8_t ident[restrict 32], const char *restrict name) {
-	bool result = false;
+	prime(bool);
+
+	/* FIXME: Error codes */
 
 	if (unlikely(tchdbget3(ctx->hdb, name, strlen(name), ident, sizeof ident) != sizeof ident))
-		goto egress0;
+		egress(0, false, errno);
 
-	result = true;
+	egress(0, true, errno);
 
 egress0:
-	return result;
+	final();
 }
 
 /**

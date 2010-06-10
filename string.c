@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "egress.h"
 #include "expect.h"
 #include "string.h"
 
@@ -142,7 +143,7 @@ static inline uint8_t hexcint(uint8_t nibble) {
  * \return \c true on success or \c false if \a src is invalid.
  */
 bool hexsint(void *restrict dest, const char *restrict src, size_t size) {
-	bool result = false;
+	prime(bool);
 
 	uint8_t *num = (uint8_t *) dest;
 
@@ -154,8 +155,7 @@ bool hexsint(void *restrict dest, const char *restrict src, size_t size) {
 				src[2 * idx + byte] > '9' && src[2 * idx + byte] < 'A' ||
 				src[2 * idx + byte] > 'F' && src[2 * idx + byte] < 'a' ||
 				src[2 * idx + byte] > 'f')) {
-				errno = EINVAL;
-				goto egress0;
+				egress(0, false, EINVAL);
 			}
 		}
 
@@ -164,10 +164,10 @@ bool hexsint(void *restrict dest, const char *restrict src, size_t size) {
 			hexcint(src[2 * idx + 1]);
 	}
 
-	result = true;
+	egress(0, true, errno);
 
 egress0:
-	return result;
+	final();
 }
 
 /**
@@ -181,12 +181,12 @@ egress0:
  * \return Pointer to the concatenated string or <tt>(char *) 0</tt> on failure.
  */
 char *concat(const char *restrict prefix, ...) {
-	char *result = (char *) 0;
+	prime(char *);
 
 	size_t size = strlen(prefix) + 1;
 	char *buf = malloc(size);
 	if (unlikely(!buf))
-		goto egress0;
+		egress(0, (char *) 0, errno);
 
 	strcpy(buf, prefix);
 
@@ -201,7 +201,7 @@ char *concat(const char *restrict prefix, ...) {
 
 		void *nbuf = realloc(buf, size + strlen(arg));
 		if (unlikely(!nbuf))
-			goto egress1;
+			egress(1, (char *) 0, errno);
 		else
 			buf = nbuf;
 
@@ -211,13 +211,11 @@ char *concat(const char *restrict prefix, ...) {
 
 	va_end(ap);
 
-	result = buf;
-	goto egress0;
+	egress(0, buf, errno);
 
 egress1:
 	free(buf);
 
 egress0:
-	return result;
+	final();
 }
-
