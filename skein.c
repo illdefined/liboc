@@ -1,9 +1,3 @@
-/**
- * \file
- *
- * \brief Skein hash function.
- */
-
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
@@ -125,11 +119,6 @@ static void skein_block(struct skein *restrict ctx, const uint8_t *restrict mesg
 	}
 }
 
-/**
- * \brief Initialise context for incremental hashing.
- *
- * \param ctx Skein context.
- */
 void skein_init(struct skein *restrict ctx) {
 	ctx->tweak[0] = 0;
 	ctx->tweak[1] = FLAG_FIRST | TYPE_MSG;
@@ -139,13 +128,6 @@ void skein_init(struct skein *restrict ctx) {
 	ctx->level = 0;
 }
 
-/**
- * \brief Hash message incrementally.
- *
- * \param ctx  Skein context.
- * \param mesg Message to hash.
- * \param size Size of message.
- */
 void skein_feed(struct skein *restrict ctx, const uint8_t *restrict mesg, size_t size) {
 	/* Catch integer overflow */
 	assert(ctx->level + size >= size);
@@ -181,15 +163,6 @@ void skein_feed(struct skein *restrict ctx, const uint8_t *restrict mesg, size_t
 	}
 }
 
-/**
- * \brief Finalise incremental hashing.
- *
- * \param ctx  Skein context.
- * \param hash Buffer to hold hash.
- *
- * The \c skein_plug function finalises the incremental hashing and
- * writes the hash value to \a hash.
- */
 void skein_plug(struct skein *restrict ctx, uint8_t hash[restrict SKEIN_BYTES]) {
 	/* Mark as the final block */
 	ctx->tweak[1] |= FLAG_FINAL;
@@ -212,13 +185,6 @@ void skein_plug(struct skein *restrict ctx, uint8_t hash[restrict SKEIN_BYTES]) 
 		hash[byte] = ctx->chain[byte / sizeof (uint64_t)] >> byte % sizeof (uint64_t) * 8;
 }
 
-/**
- * \brief Hash message.
- *
- * \param hash Buffer to hold hash.
- * \param mesg Message to hash.
- * \param size Size of message.
- */
 void skein(uint8_t hash[restrict SKEIN_BYTES], const uint8_t *restrict mesg, size_t size) {
 	struct skein ctx;
 

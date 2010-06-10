@@ -2,6 +2,12 @@
 #ifndef OC_SKEIN_H
 #define OC_SKEIN_H
 
+/**
+ * \file
+ *
+ * \brief Skein hash function.
+ */
+
 #include <stdint.h>
 
 /**
@@ -29,10 +35,40 @@ struct skein {
 	size_t   level;    /**< Buffer fill level. */
 };
 
-void skein_init(struct skein *restrict);
-void skein_feed(struct skein *restrict, const uint8_t *restrict, size_t);
-void skein_plug(struct skein *restrict, uint8_t[restrict SKEIN_BYTES]);
+/**
+ * \brief Initialise context for incremental hashing.
+ *
+ * \param ctx Skein context.
+ */
+extern void skein_init(struct skein *restrict ctx);
 
-void skein(uint8_t[restrict SKEIN_BYTES], const uint8_t *restrict, size_t);
+/**
+ * \brief Hash message incrementally.
+ *
+ * \param ctx  Skein context.
+ * \param mesg Message to hash.
+ * \param size Size of message.
+ */
+extern void skein_feed(struct skein *restrict ctx, const uint8_t *restrict mesg, size_t size);
+
+/**
+ * \brief Finalise incremental hashing.
+ *
+ * \param ctx  Skein context.
+ * \param hash Buffer to hold hash.
+ *
+ * The \c skein_plug function finalises the incremental hashing and
+ * writes the hash value to \a hash.
+ */
+extern void skein_plug(struct skein *restrict ctx, uint8_t hash[restrict SKEIN_BYTES]);
+
+/**
+ * \brief Hash message.
+ *
+ * \param hash Buffer to hold hash.
+ * \param mesg Message to hash.
+ * \param size Size of message.
+ */
+extern void skein(uint8_t hash[restrict SKEIN_BYTES], const uint8_t *restrict mesg, size_t size);
 
 #endif /* OC_SKEIN_H */

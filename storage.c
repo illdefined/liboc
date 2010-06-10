@@ -1,9 +1,3 @@
-/**
- * \file
- *
- * \brief Simple storage.
- */
-
 #include <fcntl.h>
 #include <signal.h>
 #include <spawn.h>
@@ -18,16 +12,6 @@
 #include "storage.h"
 #include "string.h"
 
-/**
- * \brief Retrieve object.
- *
- * \param pid Pointer to process ID variable.
- * \param ident Object identifier.
- * \param log Log file descriptor.
- * \param out Output file descriptor.
- *
- * \return \c true if successful or \c false on failure.
- */
 bool retrieve(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int out) {
 	prime(bool);
 
@@ -106,16 +90,6 @@ egress0:
 	final();
 }
 
-/**
- * \brief Deposit object.
- *
- * \param pid Pointer to process ID variable.
- * \param ident Object identifier.
- * \param log Log file descriptor.
- * \param in Input file descriptor.
- *
- * \return \c true if successful or \c false on failure.
- */
 bool deposit(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int in) {
 	prime(bool);
 
@@ -194,14 +168,6 @@ egress0:
 	final();
 }
 
-
-/**
- * \brief Efface object.
- *
- * \param ident Object identifier.
- *
- * \return \c true if successful or \c false on failure.
- */
 bool efface(const uint8_t ident[restrict 32]) {
 	prime(bool);
 

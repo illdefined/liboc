@@ -1,9 +1,3 @@
-/**
- * \file
- *
- * \brief Transformation functions.
- */
-
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -112,18 +106,6 @@ egress0:
 	final();
 }
 
-/**
- * \brief Despatch transformation.
- *
- * \param pid Pointer to process ID variable.
- * \param ident Transformation identifier.
- * \param log Log file descriptor.
- * \param out Output file descriptor.
- * \param in Array of input file descriptors.
- * \param num Number of input file descriptors.
- *
- * \return \c true if successful or \c false on failure.
- */
 bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int out, const int in[restrict], uint16_t num) {
 	prime(bool);
 
@@ -317,13 +299,6 @@ egress0:
 	final();
 }
 
-/**
- * \brief Clean temporary directory up.
- *
- * \param ident Transformation identifier.
- *
- * \return \c true if successful or \c false on failure.
- */
 bool cleanup(const uint8_t ident[restrict 32]) {
 	prime(bool);
 
