@@ -128,9 +128,11 @@ void skein_init(struct skein *restrict ctx) {
 	ctx->level = 0;
 }
 
-void skein_feed(struct skein *restrict ctx, const uint8_t *restrict mesg, size_t size) {
+void skein_feed(struct skein *restrict ctx, const void *restrict blob, size_t size) {
 	/* Catch integer overflow */
 	assert(ctx->level + size >= size);
+
+	const uint8_t *mesg = (const uint8_t *) blob;
 
 	if (ctx->level + size > SKEIN_BYTES) {
 		if (ctx->level) {
@@ -185,7 +187,7 @@ void skein_plug(struct skein *restrict ctx, uint8_t hash[restrict SKEIN_BYTES]) 
 		hash[byte] = ctx->chain[byte / sizeof (uint64_t)] >> byte % sizeof (uint64_t) * 8;
 }
 
-void skein(uint8_t hash[restrict SKEIN_BYTES], const uint8_t *restrict mesg, size_t size) {
+void skein(uint8_t hash[restrict SKEIN_BYTES], const void *restrict mesg, size_t size) {
 	struct skein ctx;
 
 	skein_init(&ctx);

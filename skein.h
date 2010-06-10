@@ -49,7 +49,7 @@ extern void skein_init(struct skein *restrict ctx);
  * \param mesg Message to hash.
  * \param size Size of message.
  */
-extern void skein_feed(struct skein *restrict ctx, const uint8_t *restrict mesg, size_t size);
+extern void skein_feed(struct skein *restrict ctx, const void *restrict mesg, size_t size);
 
 /**
  * \brief Finalise incremental hashing.
@@ -69,6 +69,6 @@ extern void skein_plug(struct skein *restrict ctx, uint8_t hash[restrict SKEIN_B
  * \param mesg Message to hash.
  * \param size Size of message.
  */
-extern void skein(uint8_t hash[restrict SKEIN_BYTES], const uint8_t *restrict mesg, size_t size);
+extern void skein(uint8_t hash[restrict SKEIN_BYTES], const void *restrict mesg, size_t size);
 
 #endif /* OC_SKEIN_H */
