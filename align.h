@@ -9,32 +9,32 @@
  */
 
 /**
- * \def __aligned(bound)
+ * \def aligned(bound)
  *
  * \brief Align to boundary.
  *
  * \param bound Boundary to align to.
  *
- * A variable declared \c __aligned will be allocated on the boundary
+ * A variable declared \c aligned will be allocated on the boundary
  * specified by \a bound.
  */
 
 /**
- * \def __packed
+ * \def packed
  *
  * \brief Packed variable.
  *
- * A variable declared \c __packed should have the smallest possible
+ * A variable declared \c packed should have the smallest possible
  * alignment.
 */
 
 #if defined(__clang__) || defined(__GNUC__)
-# define __packed         __attribute__((packed))
-# define __aligned(bound) __attribute__((aligned(bound)))
+# define packed         __attribute__((packed))
+# define aligned(bound) __attribute__((aligned(bound)))
 #else
 # warning "Your compiler is almost certainly going to produce incorrect code!"
-# define __packed
-# define __aligned(bound)
+# define packed
+# define aligned(bound)
 #endif
 
 #endif /* OC_FUNCTION_H */

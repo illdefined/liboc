@@ -9,7 +9,7 @@
  */
 
 /**
- * \def __check
+ * \def check
  *
  * \brief Caller must consider the return value.
  *
@@ -17,25 +17,25 @@
  */
 
 /**
- * \def __cold
+ * \def cold
  *
  * \brief Function is unlikely executed.
  *
- * A function declared \c __cold is unlikely executed.
+ * A function declared \c cold is unlikely executed.
  */
 
 /**
- * \def __const
+ * \def constant
  *
  * \brief Constant function.
  *
- * A function declared \c __const does not examine any values except
+ * A function declared \c constant does not examine any values except
  * their arguments and has no effects except the return value.
  * Pointer arguments are never dereferenced.
  */
 
 /**
- * \def __deprecated
+ * \def deprecated
  *
  * \brief Function is deprecated.
  *
@@ -43,7 +43,7 @@
  */
 
 /**
- * \def __flatten
+ * \def flatten
  *
  * \brief Attempt to inline all calls inside the function.
  *
@@ -51,77 +51,77 @@
  */
 
 /**
- * \def __hot
+ * \def hot
  *
  * \brief Function is likely executed.
  *
- * A function declared \c __hot is likely executed.
+ * A function declared \c hot is likely executed.
  */
 
 /**
- * \def __noreturn
+ * \def noreturn
  *
  * \brief Function will never return.
  *
- * A function declared \c __noreturn will never return.
+ * A function declared \c noreturn will never return.
  */
 
 /**
- * \def __pure
+ * \def pure
  *
  * \brief Function has no side‐effects.
  *
- * A function declared \c __pure does not examine any values except their
+ * A function declared \c pure does not examine any values except their
  * arguments and global variables and has no effects except the return
  * value.
  */
 
 /**
- * \def __unused
+ * \def unused
  *
  * \brief Function may be possibly unused.
  *
- * A function declared \c __unused may be possibly unused and the
- * compiler will not warn about it.
+ * A function declared \c unused may be possibly unused and the compiler
+ * will not warn about it.
  */
 
 /**
- * \def __used
+ * \def used
  *
  * \brief Function will be used.
  *
- * The compiler will always emit code for a function declared \c __used,
+ * The compiler will always emit code for a function declared \c used,
  * even, if the function is not referenced.
  */
 
 #if defined(__clang__) || defined(__GNUC__)
-# define __check      __attribute__((warn_unused_result))
-# define __cold       __attribute__((cold))
-# define __const      __attribute__((const))
-# define __deprecated __attribute__((deprecated))
-# define __flatten    __attribute__((flatten))
-# define __hot        __attribute__((hot))
-# define __noreturn   __attribute__((noreturn))
-# define __pure       __attribute__((pure))
-# define __unused     __attribute__((unused))
-# define __used       __attribute__((used))
+# define check      __attribute__((warn_unused_result))
+# define cold       __attribute__((cold))
+# define constant   __attribute__((const))
+# define deprecated __attribute__((deprecated))
+# define flatten    __attribute__((flatten))
+# define hot        __attribute__((hot))
+# define noreturn   __attribute__((noreturn))
+# define pure       __attribute__((pure))
+# define unused     __attribute__((unused))
+# define used       __attribute__((used))
 #else
-# define __check
-# define __cold
-# define __const
-# define __deprecated
-# define __flatten
-# define __hot
-# define __noreturn
-# define __pure
-# define __unused
-# define __used
+# define check
+# define cold
+# define constant
+# define deprecated
+# define flatten
+# define hot
+# define noreturn
+# define pure
+# define unused
+# define used
 #endif
 
 /* Work around sparse */
 #ifdef __CHECKER__
-# undef __flatten
-# define __flatten
+# undef flatten
+# define flatten
 #endif
 
 #endif /* OC_FUNCTION_H */
