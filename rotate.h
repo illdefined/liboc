@@ -16,7 +16,7 @@
  *
  * \return Rotated integer
  */
-#define rotl(x, s) ((x) << ((s) & sizeof (x) * 8 - 1) | (x) >> sizeof (x) * 8 - ((s) & sizeof (x) * 8 - 1))
+#define rotl(x, s) (((x) << ((s) & sizeof (x) * 8 - 1) | (x) >> sizeof (x) * 8 - ((s) & sizeof (x) * 8 - 1)) & (1 << sizeof (x) * 8) - 1)
 
 /**
  * \brief Rotate integer right.
@@ -26,6 +26,6 @@
  *
  * \return Rotated integer
  */
-#define rotr(x, s) ((x) >> ((s) & sizeof (x) * 8 - 1) | (x) << sizeof (x) * 8 - ((s) & sizeof (x) * 8 - 1))
+#define rotr(x, s) (((x) >> ((s) & sizeof (x) * 8 - 1) | (x) << sizeof (x) * 8 - ((s) & sizeof (x) * 8 - 1)) & (1 << sizeof (x) * 8) - 1)
 
 #endif
