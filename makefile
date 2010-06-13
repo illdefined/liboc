@@ -26,7 +26,7 @@ INCDIR   ?= include
 hdr      := skein.h string.h storage.h transform.h trivial.h
 src      := skein.c storage.c string.c transform.c trivial.c
 obj      := $(src:.c=.o)
-tst      := skein string
+tst      := rotate skein string
 
 check: .depend .sparse $(src)
 	for test in $(tst); \
