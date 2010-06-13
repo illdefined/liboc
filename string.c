@@ -43,7 +43,7 @@ static inline constant uint8_t inthexc(uint8_t nibble) {
 	case 0xd:
 	case 0xe:
 	case 0xf:
-		result = nibble + (uint8_t) 'a';
+		result = nibble - 0xa + (uint8_t) 'a';
 		break;
 	}
 
@@ -97,7 +97,7 @@ static inline constant uint8_t hexcint(uint8_t nibble) {
 	case 'D':
 	case 'E':
 	case 'F':
-		result = nibble - (uint8_t) 'A';
+		result = nibble - (uint8_t) 'A' + 0xa;
 		break;
 
 	case 'a':
@@ -106,7 +106,7 @@ static inline constant uint8_t hexcint(uint8_t nibble) {
 	case 'd':
 	case 'e':
 	case 'f':
-		result = nibble - (uint8_t) 'a';
+		result = nibble - (uint8_t) 'a' + 0xa;
 		break;
 	}
 
@@ -182,3 +182,63 @@ egress1:
 egress0:
 	final();
 }
+
+#ifdef TEST
+#include <stdlib.h>
+
+#include "essai.h"
+
+int main(void) {
+	essaye(inthexc(0x0) == '0');
+	essaye(inthexc(0x1) == '1');
+	essaye(inthexc(0x2) == '2');
+	essaye(inthexc(0x3) == '3');
+	essaye(inthexc(0x4) == '4');
+	essaye(inthexc(0x5) == '5');
+	essaye(inthexc(0x6) == '6');
+	essaye(inthexc(0x7) == '7');
+	essaye(inthexc(0x8) == '8');
+	essaye(inthexc(0x9) == '9');
+	essaye(inthexc(0xa) == 'a');
+	essaye(inthexc(0xb) == 'b');
+	essaye(inthexc(0xc) == 'c');
+	essaye(inthexc(0xd) == 'd');
+	essaye(inthexc(0xe) == 'e');
+	essaye(inthexc(0xf) == 'f');
+
+	essaye(hexcint('0') == 0x0);
+	essaye(hexcint('1') == 0x1);
+	essaye(hexcint('2') == 0x2);
+	essaye(hexcint('3') == 0x3);
+	essaye(hexcint('4') == 0x4);
+	essaye(hexcint('5') == 0x5);
+	essaye(hexcint('6') == 0x6);
+	essaye(hexcint('7') == 0x7);
+	essaye(hexcint('8') == 0x8);
+	essaye(hexcint('9') == 0x9);
+	essaye(hexcint('a') == 0xa);
+	essaye(hexcint('A') == 0xa);
+	essaye(hexcint('b') == 0xb);
+	essaye(hexcint('B') == 0xb);
+	essaye(hexcint('c') == 0xc);
+	essaye(hexcint('C') == 0xc);
+	essaye(hexcint('d') == 0xd);
+	essaye(hexcint('D') == 0xd);
+	essaye(hexcint('e') == 0xe);
+	essaye(hexcint('E') == 0xe);
+	essaye(hexcint('f') == 0xf);
+	essaye(hexcint('F') == 0xf);
+
+	char *test;
+	essaye((test = concat("foo", (char *) 0)) && !strcmp(test, "foo"));
+	free(test);
+
+	essaye((test = concat("foo", "bar", (char *) 0)) && !strcmp(test, "foobar"));
+	free(test);
+
+	essaye((test = concat("foo", "bar", "foo", (char *) 0)) && !strcmp(test, "foobarfoo"));
+	free(test);
+
+	return EXIT_SUCCESS;
+}
+#endif /* TEST */
