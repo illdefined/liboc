@@ -45,6 +45,7 @@ bool retrieve(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, in
 	if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, log, 2)))
 		egress(2, false, errno);
 
+#if 0
 	/* Spawn attributes */
 	posix_spawnattr_t attr;
 	if (unlikely(posix_spawnattr_init(&attr)))
@@ -68,17 +69,20 @@ bool retrieve(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, in
 
 	if (unlikely(posix_spawnattr_setsigdefault(&attr, &sigdefault)))
 		egress(3, false, errno);
+#endif
 
 	char *argv[] = { "xz", "-d", "-c", (char *) 0 };
 	char *envp[] = { (char *) 0 };
 
-	if (unlikely(posix_spawnp(pid, "xz", &file_actions, &attr, argv, envp)))
+	if (unlikely(posix_spawnp(pid, "xz", &file_actions, (posix_spawnattr_t *) 0, argv, envp)))
 		egress(3, false, errno);
 
 	egress(3, true, errno);
 
 egress3:
+#if 0
 	posix_spawnattr_destroy(&attr);
+#endif
 
 egress2:
 	posix_spawn_file_actions_destroy(&file_actions);
@@ -123,6 +127,7 @@ bool deposit(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int
 	if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, log, 2)))
 		egress(2, false, errno);
 
+#if 0
 	/* Spawn attributes */
 	posix_spawnattr_t attr;
 	if (unlikely(posix_spawnattr_init(&attr)))
@@ -146,17 +151,20 @@ bool deposit(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int
 
 	if (unlikely(posix_spawnattr_setsigdefault(&attr, &sigdefault)))
 		egress(3, false, errno);
+#endif
 
-	char *argv[] = { "xz", "-z", "-c", "-7", (char *) 0 };
+	char *argv[] = { "xz", "-z", "-c", "-7", "-", (char *) 0 };
 	char *envp[] = { (char *) 0 };
 
-	if (unlikely(posix_spawnp(pid, "xz", &file_actions, &attr, argv, envp)))
+	if (unlikely(posix_spawnp(pid, "xz", &file_actions, (posix_spawnattr_t *) 0, argv, envp)))
 		egress(3, false, errno);
 
 	egress(3, true, errno);
 
 egress3:
+#if 0
 	posix_spawnattr_destroy(&attr);
+#endif
 
 egress2:
 	posix_spawn_file_actions_destroy(&file_actions);

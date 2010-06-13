@@ -166,6 +166,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		if (unlikely(posix_spawn_file_actions_adddup2(&file_actions, in[iter], iter + 3)))
 			egress(3, false, errno);
 
+#if 0
 	/* Spawn attributes */
 	posix_spawnattr_t attr;
 	if (posix_spawnattr_init(&attr))
@@ -189,6 +190,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 
 	if (posix_spawnattr_setsigdefault(&attr, &sigdefault))
 		egress(4, false, errno);
+#endif
 
 	/* Source directory */
 	char *source = concat(SHARE_BASE, idstr, (char *) 0);
@@ -242,7 +244,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	char *envp[] = { sydwr, (char *) 0 };
 
 	/* Spawn sub‐process */
-	if (unlikely(posix_spawnp(pid, "sydbox", &file_actions, &attr, argv, envp)))
+	if (unlikely(posix_spawnp(pid, "sydbox", &file_actions, (posix_spawnattr_t *) 0, argv, envp)))
 		egress(8, false, errno);
 
 	egress(8, true, errno);
@@ -260,7 +262,9 @@ egress5:
 	free(source);
 
 egress4:
+#if 0
 	posix_spawnattr_destroy(&attr);
+#endif
 
 egress3:
 	posix_spawn_file_actions_destroy(&file_actions);
