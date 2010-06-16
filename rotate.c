@@ -6,58 +6,6 @@
 #include "rotate.h"
 
 int main(void) {
-	essaye(rotl((uint8_t) 0xac, 0) == 0xac);
-	essaye(rotl((uint8_t) 0xac, 1) == 0x59);
-	essaye(rotl((uint8_t) 0xac, 2) == 0xb2);
-	essaye(rotl((uint8_t) 0xac, 3) == 0x65);
-	essaye(rotl((uint8_t) 0xac, 4) == 0xca);
-	essaye(rotl((uint8_t) 0xac, 5) == 0x95);
-	essaye(rotl((uint8_t) 0xac, 6) == 0x2b);
-	essaye(rotl((uint8_t) 0xac, 7) == 0x56);
-	essaye(rotl((uint8_t) 0xac, 8) == 0xac);
-
-	essaye(rotr((uint8_t) 0xac, 0) == 0xac);
-	essaye(rotr((uint8_t) 0xac, 1) == 0x56);
-	essaye(rotr((uint8_t) 0xac, 2) == 0x2b);
-	essaye(rotr((uint8_t) 0xac, 3) == 0x95);
-	essaye(rotr((uint8_t) 0xac, 4) == 0xca);
-	essaye(rotr((uint8_t) 0xac, 5) == 0x65);
-	essaye(rotr((uint8_t) 0xac, 6) == 0xb2);
-	essaye(rotr((uint8_t) 0xac, 7) == 0x59);
-	essaye(rotr((uint8_t) 0xac, 8) == 0xac);
-
-	essaye(rotl((uint16_t) 0xcafe,  0) == 0xcafe);
-	essaye(rotl((uint16_t) 0xcafe,  4) == 0xafec);
-	essaye(rotl((uint16_t) 0xcafe,  8) == 0xfeca);
-	essaye(rotl((uint16_t) 0xcafe, 12) == 0xecaf);
-	essaye(rotl((uint16_t) 0xcafe, 16) == 0xcafe);
-
-	essaye(rotr((uint16_t) 0xcafe,  0) == 0xcafe);
-	essaye(rotr((uint16_t) 0xcafe,  4) == 0xecaf);
-	essaye(rotr((uint16_t) 0xcafe,  8) == 0xfeca);
-	essaye(rotr((uint16_t) 0xcafe, 12) == 0xafec);
-	essaye(rotr((uint16_t) 0xcafe, 16) == 0xcafe);
-
-	essaye(rotl((uint32_t) 0xdeadbeef,  0) == 0xdeadbeef);
-	essaye(rotl((uint32_t) 0xdeadbeef,  4) == 0xeadbeefd);
-	essaye(rotl((uint32_t) 0xdeadbeef,  8) == 0xadbeefde);
-	essaye(rotl((uint32_t) 0xdeadbeef, 12) == 0xdbeefdea);
-	essaye(rotl((uint32_t) 0xdeadbeef, 16) == 0xbeefdead);
-	essaye(rotl((uint32_t) 0xdeadbeef, 20) == 0xeefdeadb);
-	essaye(rotl((uint32_t) 0xdeadbeef, 24) == 0xefdeadbe);
-	essaye(rotl((uint32_t) 0xdeadbeef, 28) == 0xfdeadbee);
-	essaye(rotl((uint32_t) 0xdeadbeef, 32) == 0xdeadbeef);
-
-	essaye(rotr((uint32_t) 0xdeadbeef,  0) == 0xdeadbeef);
-	essaye(rotr((uint32_t) 0xdeadbeef,  4) == 0xfdeadbee);
-	essaye(rotr((uint32_t) 0xdeadbeef,  8) == 0xefdeadbe);
-	essaye(rotr((uint32_t) 0xdeadbeef, 12) == 0xeefdeadb);
-	essaye(rotr((uint32_t) 0xdeadbeef, 16) == 0xbeefdead);
-	essaye(rotr((uint32_t) 0xdeadbeef, 20) == 0xdbeefdea);
-	essaye(rotr((uint32_t) 0xdeadbeef, 24) == 0xadbeefde);
-	essaye(rotr((uint32_t) 0xdeadbeef, 28) == 0xeadbeefd);
-	essaye(rotr((uint32_t) 0xdeadbeef, 32) == 0xdeadbeef);
-
 	essaye(rotl((uint64_t) 0x46c048d15e26af37,  0) == 0x46c048d15e26af37);
 	essaye(rotl((uint64_t) 0x46c048d15e26af37,  4) == 0x6c048d15e26af374);
 	essaye(rotl((uint64_t) 0x46c048d15e26af37,  8) == 0xc048d15e26af3746);
