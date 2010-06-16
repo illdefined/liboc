@@ -71,10 +71,10 @@ bool retrieve(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, in
 		egress(3, false, errno);
 #endif
 
-	char *argv[] = { "xz", "-d", "-c", (char *) 0 };
-	char *envp[] = { (char *) 0 };
+	const char *argv[] = { "xz", "-d", "-c", (char *) 0 };
+	const char *envp[] = { (char *) 0 };
 
-	if (unlikely(posix_spawnp(pid, "xz", &file_actions, (posix_spawnattr_t *) 0, argv, envp)))
+	if (unlikely(posix_spawnp(pid, "xz", &file_actions, (posix_spawnattr_t *) 0, (char **) argv, (char **) envp)))
 		egress(3, false, errno);
 
 	egress(3, true, errno);
@@ -153,10 +153,10 @@ bool deposit(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int
 		egress(3, false, errno);
 #endif
 
-	char *argv[] = { "xz", "-z", "-c", "-7", "-", (char *) 0 };
-	char *envp[] = { (char *) 0 };
+	const char *argv[] = { "xz", "-z", "-c", "-7", "-", (char *) 0 };
+	const char *envp[] = { (char *) 0 };
 
-	if (unlikely(posix_spawnp(pid, "xz", &file_actions, (posix_spawnattr_t *) 0, argv, envp)))
+	if (unlikely(posix_spawnp(pid, "xz", &file_actions, (posix_spawnattr_t *) 0, (char **) argv, (char **) envp)))
 		egress(3, false, errno);
 
 	egress(3, true, errno);
