@@ -15,7 +15,7 @@ CPPFLAGS += -std=c99 -D_XOPEN_SOURCE=600
 CFLAGS   += -pipe -O2 -Wall -Wno-parentheses -Wcast-align -Wwrite-strings -pedantic
 CFLAGS   += -fmerge-all-constants -fstrict-overflow
 CFLAGS   += -frename-registers -fPIC -fno-common
-LDFLAGS  += -Wl,-O1 -shared
+LDFLAGS  += -shared
 LIBS     ?= -lc -ltokyocabinet
 
 DESTDIR  ?= /
