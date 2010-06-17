@@ -11,7 +11,7 @@ endif
 CC       ?= $(shell if which clang 2>&1 >/dev/null; then echo clang; else echo gcc; fi)
 CPP      ?= $(CC) -E
 
-CPPFLAGS += -std=c99 -D_XOPEN_SOURCE=600
+CPPFLAGS += -std=c99 -D_XOPEN_SOURCE=600 -ggdb3
 CFLAGS   += -pipe -O2 -Wall -Wno-parentheses -Wcast-align -Wwrite-strings -pedantic
 CFLAGS   += -fmerge-all-constants -fstrict-overflow
 CFLAGS   += -frename-registers -fPIC -fno-common
@@ -51,8 +51,10 @@ install: liboc.a liboc.so
 	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus/storage
 	install -m 755 bzfile.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/bzfile
 	install -m 755 file.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/file
+	install -m 755 tar.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/tar
 	install -m 755 xzfile.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/xzfile
 	install -m 755 zfile.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/zfile
+	install -m 755 zip.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/zip
 
 endian.h: byteorder.o
 	if grep -l "BIGenDianSyS" byteorder.o; \
