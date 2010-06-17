@@ -48,6 +48,7 @@ install: liboc.a liboc.so
 	install -m 644 liboc.a $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 755 liboc.so $(DESTDIR)$(PREFIX)$(LIBDIR)
 	
+	install -d $(DESTDIR)$(PREFIX)libexec/storage
 	install -m 755 xzfile.sh $(DESTDIR)$(PREFIX)libexec/storage/xzfile
 
 endian.h: byteorder.o
