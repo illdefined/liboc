@@ -125,7 +125,7 @@ bool retrieve(pid_t *restrict pid, const char *restrict module, const uint8_t id
 	const char *argv[] = { "sydbox", "-C", "-L", path, store, cache, temp, idstr, "retrieve", (char *) 0 };
 
 	/* Writable directories */
-	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/pro    c/self/attr;/proc/self/fd;/proc/self/task;/tmp;" STORE_BASE, idstr, ";" CACHE_BASE, idstr, ";" TEMP_BASE, idstr, (char *) 0);
+	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/pro    c/self/attr;/proc/self/fd;/proc/self/task;/tmp;", store, ";", cache, ";", temp, (char *) 0);
 
 	/* Set environment up */
 	const char *envp[] = { sydwr, (char *) 0 };
@@ -271,7 +271,7 @@ bool deposit(pid_t *restrict pid, const char *restrict module, const uint8_t ide
 	const char *argv[] = { "sydbox", "-C", "-L", path, store, cache, temp, idstr, "deposit", (char *) 0 };
 
 	/* Writable directories */
-	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/pro    c/self/attr;/proc/self/fd;/proc/self/task;/tmp;" STORE_BASE, idstr, ";" CACHE_BASE, idstr, ";" TEMP_BASE, idstr, (char *) 0);
+	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/pro    c/self/attr;/proc/self/fd;/proc/self/task;/tmp;", store, ";", cache, ";", temp, (char *) 0);
 
 	/* Set environment up */
 	const char *envp[] = { sydwr, (char *) 0 };
@@ -417,7 +417,7 @@ bool efface(pid_t *restrict pid, const char *restrict module, const uint8_t iden
 	const char *argv[] = { "sydbox", "-C", "-L", path, store, cache, temp, idstr, "efface", (char *) 0 };
 
 	/* Writable directories */
-	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/pro    c/self/attr;/proc/self/fd;/proc/self/task;/tmp;" STORE_BASE, idstr, ";" CACHE_BASE, idstr, ";" TEMP_BASE, idstr, (char *) 0);
+	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/pro    c/self/attr;/proc/self/fd;/proc/self/task;/tmp;", store, ";", cache, ";", temp, (char *) 0);
 
 	/* Set environment up */
 	const char *envp[] = { sydwr, (char *) 0 };

@@ -206,7 +206,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	const char *argv[] = { "sydbox", "-C", "-L", path, source, cache, temp, narg, (char *) 0 };
 
 	/* Writable directories (FIXME: Make this configurable) */
-	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/proc/self/attr;/proc/self/fd;/proc/self/task;/tmp;" CACHE_BASE, idstr, ";" TEMP_BASE, idstr, (char *) 0);
+	char *sydwr = concat("SYDBOX_WRITE=/dev/fd;/dev/full;/dev/null;/dev/stderr;/dev/stdout;/dev/shm;/dev/zero;/proc/self/attr;/proc/self/fd;/proc/self/task;/tmp;", cache, ";", temp, (char *) 0);
 	if (unlikely(!sydwr))
 		egress(7, false, errno);
 
