@@ -47,6 +47,8 @@ install: liboc.a liboc.so
 	install -d $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 644 liboc.a $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 755 liboc.so $(DESTDIR)$(PREFIX)$(LIBDIR)
+	
+	install -m 755 xzfile.sh $(DESTDIR)$(PREFIX)libexec/storage/xzfile
 
 endian.h: byteorder.o
 	if grep -l "BIGenDianSyS" byteorder.o; \
