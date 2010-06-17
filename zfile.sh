@@ -4,15 +4,15 @@ set -e
 
 case "$5" in
 	"retrieve")
-		gzip -d -c <"$1/$4"
+		gzip -d -c <"$1/$4.gz"
 	;;
 
 	"deposit")
-		gzip -z -c -9 >"$1/$4"
+		gzip -z -c -9 >"$1/$4.gz"
 	;;
 
 	"efface")
-		rm -- "$1/$4"
+		rm -- "$1/$4.gz"
 	;;
 
 	*)
