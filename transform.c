@@ -17,6 +17,7 @@
 #include "egress.h"
 #include "endian.h"
 #include "expect.h"
+#include "canonical.h"
 #include "path.h"
 #include "string.h"
 #include "transform.h"
@@ -75,37 +76,6 @@ egress0:
 	final();
 }
 
-/**
- * \brief Canonicalise and validate path name.
- *
- * Convert the path name specified in \a path into its canonical form
- * and validate it. The new path name will be allocated on the heap and
- * shound be released using \c free.
- *
- * \param prefix Mandatory path prefix.
- * \param path Path name.
- *
- * \return Pointer to the new path name or <tt>(char *) 0</tt> on failure.
- */
-static char *canonicalise(const char *restrict prefix, const char *restrict path) {
-	prime(char *);
-
-	char *canon = realpath(path, (char *) 0);
-	if (unlikely(!canon))
-		egress(0, (char *) 0, errno);
-
-	if (unlikely(strncmp(canon, prefix, strlen(prefix))))
-		egress(1, (char *) 0, EPERM);
-
-	egress(0, canon, errno);
-
-egress1:
-	free(canon);
-
-egress0:
-	final();
-}
-
 bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, int out, const int in[restrict], uint16_t num) {
 	prime(bool);
 
@@ -132,7 +102,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		egress(2, false, errno);
 
 	/* Validate path */
-	char *canon = canonicalise(EXEC_BASE "runtime/", path);
+	char *canon = canonical(EXEC_BASE "runtime/", path);
 	if (unlikely(!canon))
 		egress(2, false, errno);
 
