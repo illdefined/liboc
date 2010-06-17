@@ -49,7 +49,10 @@ install: liboc.a liboc.so
 	install -m 755 liboc.so $(DESTDIR)$(PREFIX)$(LIBDIR)
 	
 	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus/storage
+	install -m 755 bzfile.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/bzfile
+	install -m 755 file.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/file
 	install -m 755 xzfile.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/xzfile
+	install -m 755 zfile.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/zfile
 
 endian.h: byteorder.o
 	if grep -l "BIGenDianSyS" byteorder.o; \
