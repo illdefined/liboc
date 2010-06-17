@@ -2,7 +2,7 @@
 
 set -e
 
-archive="$1/opencorpus.tar"
+archive="$1/corpus.tar"
 
 case "$5" in
 	"retrieve")

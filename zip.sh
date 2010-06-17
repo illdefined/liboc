@@ -2,7 +2,7 @@
 
 set -e
 
-archive="$1/opencorpus.zip"
+archive="$1/corpus.zip"
 
 case "$5" in
 	"retrieve")
