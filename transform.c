@@ -115,24 +115,24 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	inthexs(idstr, ident, 32);
 
 	/* Generate TRE specifier path */
-	char *path = concat(SHARE_BASE, idstr, "/tre", (char *) 0);
+	char *path = concat(SHARE_BASE, idstr, "/runtime", (char *) 0);
 	if (unlikely(!path))
 		egress(0, false, errno);
 
 	/* Read TRE name */
-	char *tre = dump(path, NAME_MAX);
-	if (unlikely(!tre))
+	char *runtime = dump(path, NAME_MAX);
+	if (unlikely(!runtime))
 		egress(1, false, errno);
 
 	free(path);
 
 	/* Generate TRE path */
-	path = concat(EXEC_BASE, tre, (char *) 0);
+	path = concat(EXEC_BASE "runtime/", runtime, (char *) 0);
 	if (unlikely(!path))
 		egress(2, false, errno);
 
 	/* Validate path */
-	char *canon = canonicalise(EXEC_BASE, path);
+	char *canon = canonicalise(EXEC_BASE "runtime/", path);
 	if (unlikely(!canon))
 		egress(2, false, errno);
 
@@ -202,7 +202,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		egress(5, false, errno);
 
 	/* Cache directory */
-	char *cache = concat(CACHE_BASE, tre, (char *) 0);
+	char *cache = concat(CACHE_BASE "runtime/", runtime, (char *) 0);
 	if (unlikely(!cache))
 		egress(5, false, errno);
 
@@ -215,7 +215,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 		egress(6, false, errno);
 
 	/* Temporary file directory */
-	char *temp = concat(TEMP_BASE, idstr, (char *) 0);
+	char *temp = concat(TEMP_BASE "runtime/", idstr, (char *) 0);
 	if (unlikely(!temp))
 		egress(6, false, errno);
 
@@ -270,7 +270,7 @@ egress3:
 	posix_spawn_file_actions_destroy(&file_actions);
 
 egress2:
-	free(tre);
+	free(runtime);
 
 egress1:
 	free(path);
