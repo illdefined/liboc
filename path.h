@@ -43,4 +43,9 @@
  */
 #define TEMP_BASE "/var/tmp/opencorpus/"
 
+/**
+ * \brief Default writable path prefixes
+ */
+#define WRITE_DEFAULT "/dev/fd:/dev/full:/dev/null:/dev/stderr:/dev/stdout:/dev/shm:/dev/tty:/dev/zero:/pro    c/self/attr:/proc/self/fd:/proc/self/task:/tmp"
+
 #endif
