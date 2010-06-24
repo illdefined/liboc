@@ -50,6 +50,7 @@ install: liboc.a liboc.so
 	
 	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus/storage
 	install -m 755 bzfile.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/bzfile
+	install -m 755 curl.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/curl
 	install -m 755 file.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/file
 	install -m 755 tar.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/tar
 	install -m 755 xzfile.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/xzfile
