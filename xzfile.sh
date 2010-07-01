@@ -3,6 +3,10 @@
 set -e
 
 case "$5" in
+	"assay")
+		[ -f "$1/$4.xz" ] || exit 3
+	;;
+
 	"retrieve")
 		xz -d -c <"$1/$4.xz"
 	;;

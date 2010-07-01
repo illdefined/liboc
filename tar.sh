@@ -5,6 +5,10 @@ set -e
 archive="$1/corpus.tar"
 
 case "$5" in
+	"assay")
+		tar -t -f "$archive" "$4" >/dev/null || exit 3
+	;;
+
 	"retrieve")
 		tar -x -f "$archive" -C "$3" "$4"
 		<"$3/$4"

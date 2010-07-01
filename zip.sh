@@ -5,6 +5,10 @@ set -e
 archive="$1/corpus.zip"
 
 case "$5" in
+	"assay")
+		unzip -l "$archive" "$4" >/dev/null || exit 3
+	;;
+
 	"retrieve")
 		unzip -p "$archive" "$4"
 	;;

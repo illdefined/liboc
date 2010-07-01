@@ -3,6 +3,10 @@
 set -e
 
 case "$5" in
+	"assay")
+		[ -f "$1/$4.bz2" ] || exit 3
+	;;
+
 	"retrieve")
 		bzip2 -d -c <"$1/$4.bz2"
 	;;

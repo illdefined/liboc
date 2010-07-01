@@ -36,6 +36,25 @@ then
 fi
 
 case "$5" in
+	"assay")
+		case "${BASE_URI%%://*}" in
+			http|https)
+				curl ${CURL_OPTS} -I "${BASE_URI}$4" | head -n 1 \
+				| grep -E -q '^HTTP/1\.1 2[0-9][0-9] .+$' \
+				|| exit 3
+			;;
+
+			ftp|ftps|sftp)
+				curl ${CURL_OPTS} -I "${BASE_URI}$4" || exit 3
+			;;
+
+			*)
+				echo "The selected protocol does not support assaying!" >&2
+				exit 1
+			;;
+		esac
+	;;
+
 	"retrieve")
 		curl ${CURL_OPTS} -G "${BASE_URI}$4"
 	;;
