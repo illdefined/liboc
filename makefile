@@ -11,7 +11,7 @@ endif
 CC       ?= $(shell if which clang 2>&1 >/dev/null; then echo clang; else echo gcc; fi)
 CPP      ?= $(CC) -E
 
-CPPFLAGS += -std=c99 -D_XOPEN_SOURCE=600 -ggdb3
+CPPFLAGS += -std=c99 -D_XOPEN_SOURCE=600
 CFLAGS   += -pipe -O2 -Wall -Wno-parentheses -Wcast-align -Wwrite-strings -pedantic
 CFLAGS   += -fmerge-all-constants -fstrict-overflow
 CFLAGS   += -frename-registers -fPIC -fno-common
