@@ -10,6 +10,19 @@
 static uint8_t buf[BUFSIZE];
 
 int main(int argc, char *argv[]) {
+	if (unlikely(argc != 5)) {
+		fputs("Not enough arguments!\n", stderr);
+		return EXIT_FAILURE;
+	}
+
+	/* Check number of input objects */
+	unsigned long int argn = strtoul(argv[4], (char **) 0, 16);
+	if (unlikely(argn != 1)) {
+		fputs("Invalid number of input objects!\n"
+			"The identity transformation takes exactly one object!\n", stderr);
+		return EXIT_FAILURE;
+	}
+
 	ssize_t in, out;
 
 	do {
