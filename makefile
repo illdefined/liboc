@@ -1,4 +1,4 @@
-all: liboc.a liboc.so pthrough sqlite
+all: liboc.a liboc.so identity pthrough sqlite
 
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(MAKECMDGOALS),distclean)
@@ -35,18 +35,23 @@ check: .depend .sparse $(src)
 	done
 
 clean:
-	rm -f -- liboc.a liboc.so pthrough sqlite $(obj) $(tst)
+	rm -f -- liboc.a liboc.so identity pthrough sqlite $(obj) $(tst)
 
 distclean: clean
 	rm -f -- .depend .sparse byteorder.o
 
-install: liboc.a liboc.so pthrough sqlite
+install: liboc.a liboc.so identity pthrough sqlite
 	install -d $(DESTDIR)$(PREFIX)$(INCDIR)/OC
 	install -m 644 $(hdr) $(DESTDIR)$(PREFIX)$(INCDIR)/OC
 	
 	install -d $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 644 liboc.a $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 755 liboc.so $(DESTDIR)$(PREFIX)$(LIBDIR)
+	
+	install -d $(DESTDIR)$(PREFIX)share/opencorpus/0000000000000000000000000000000000000000000000000000000000000000
+	install -m 755 identity $(DESTDIR)$(PREFIX)share/opencorpus/0000000000000000000000000000000000000000000000000000000000000000/transform
+	echo -n pthrough >$(DESTDIR)$(PREFIX)share/opencorpus/0000000000000000000000000000000000000000000000000000000000000000/runtime
+	echo -n OpenCorpus.identity >$(DESTDIR)$(PREFIX)share/opencorpus/0000000000000000000000000000000000000000000000000000000000000000/trivial
 	
 	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus/runtime
 	install -m 755 pthrough $(DESTDIR)$(PREFIX)libexec/opencorpus/runtime/pthrough
@@ -94,6 +99,9 @@ liboc.a: .depend $(obj)
 
 liboc.so: .depend $(obj)
 	$(CC) $(LDFLAGS) -o $@ $(obj) $(LIBS)
+
+identity: identity.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $^
 
 sqlite: sqlite.c string.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $^ -lsqlite3
