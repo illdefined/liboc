@@ -1,4 +1,4 @@
-all: liboc.a liboc.so sqlite
+all: liboc.a liboc.so pthrough sqlite
 
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(MAKECMDGOALS),distclean)
@@ -35,18 +35,21 @@ check: .depend .sparse $(src)
 	done
 
 clean:
-	rm -f -- liboc.a liboc.so $(obj) $(tst)
+	rm -f -- liboc.a liboc.so pthrough sqlite $(obj) $(tst)
 
 distclean: clean
 	rm -f -- .depend .sparse byteorder.o
 
-install: liboc.a liboc.so sqlite
+install: liboc.a liboc.so pthrough sqlite
 	install -d $(DESTDIR)$(PREFIX)$(INCDIR)/OC
 	install -m 644 $(hdr) $(DESTDIR)$(PREFIX)$(INCDIR)/OC
 	
 	install -d $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 644 liboc.a $(DESTDIR)$(PREFIX)$(LIBDIR)
 	install -m 755 liboc.so $(DESTDIR)$(PREFIX)$(LIBDIR)
+	
+	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus/runtime
+	install -m 755 pthrough $(DESTDIR)$(PREFIX)libexec/opencorpus/runtime/pthrough
 	
 	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus/storage
 	install -m 755 sqlite $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/sqlite
@@ -94,6 +97,9 @@ liboc.so: .depend $(obj)
 
 sqlite: sqlite.c string.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $^ -lsqlite3
+
+pthrough: pthrough.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $^
 
 .c.o:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
