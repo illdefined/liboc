@@ -1,4 +1,4 @@
-all: liboc.a liboc.so
+all: liboc.a liboc.so sqlite
 
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(MAKECMDGOALS),distclean)
@@ -40,7 +40,7 @@ clean:
 distclean: clean
 	rm -f -- .depend .sparse byteorder.o
 
-install: liboc.a liboc.so
+install: liboc.a liboc.so sqlite
 	install -d $(DESTDIR)$(PREFIX)$(INCDIR)/OC
 	install -m 644 $(hdr) $(DESTDIR)$(PREFIX)$(INCDIR)/OC
 	
@@ -49,6 +49,7 @@ install: liboc.a liboc.so
 	install -m 755 liboc.so $(DESTDIR)$(PREFIX)$(LIBDIR)
 	
 	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus/storage
+	install -m 755 sqlite $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/sqlite
 	install -m 755 bzfile.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/bzfile
 	install -m 755 curl.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/curl
 	install -m 755 file.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/file
@@ -90,6 +91,9 @@ liboc.a: .depend $(obj)
 
 liboc.so: .depend $(obj)
 	$(CC) $(LDFLAGS) -o $@ $(obj) $(LIBS)
+
+sqlite: sqlite.c string.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $^ -lsqlite3
 
 .c.o:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
