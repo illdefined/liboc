@@ -50,7 +50,7 @@ case "$5" in
 
 			*)
 				echo "The selected protocol does not support assaying!" >&2
-				exit 1
+				exit 2
 			;;
 		esac
 	;;
@@ -82,6 +82,6 @@ case "$5" in
 
 	*)
 		echo "Invalid storage operation “$5”!" >&2
-		exit 1
+		exit 2
 	;;
 esac
