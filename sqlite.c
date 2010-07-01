@@ -64,14 +64,15 @@ int main(int argc, char *argv[]) {
 	atexit(atexit_sqlite);
 
 	/* Open database */
-	if (sqlite3_open("corpus", &db) != SQLITE_OK) {
+	if (unlikely(sqlite3_open("corpus", &db) != SQLITE_OK)) {
 		fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
 		return EXIT_FAILURE;
 	}
 
 	/* Create table */
 	char *errmsg;
-	if (sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS corpus (ident BLOB PRIMARY KEY, object BLOB)", (void *) 0, (void *) 0, &errmsg) != SQLITE_OK) {
+	if (unlikely(sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS corpus (ident BLOB PRIMARY KEY, object BLOB)",
+		(void *) 0, (void *) 0, &errmsg) != SQLITE_OK)) {
 		fprintf(stderr, "Unable to create table: %s\n", errmsg);
 		return EXIT_FAILURE;
 	}
@@ -81,12 +82,12 @@ int main(int argc, char *argv[]) {
 		const char *query = "SELECT object FROM corpus WHERE ident=?";
 
 		sqlite3_stmt *stmt;
-		if (sqlite3_prepare_v2(db, query, -1, &stmt, (const char **) 0) != SQLITE_OK) {
+		if (unlikely(sqlite3_prepare_v2(db, query, -1, &stmt, (const char **) 0) != SQLITE_OK)) {
 			fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
 			return EXIT_FAILURE;
 		}
 
-		if (sqlite3_bind_blob(stmt, 1, ident, sizeof ident, SQLITE_STATIC) != SQLITE_OK) {
+		if (unlikely(sqlite3_bind_blob(stmt, 1, ident, sizeof ident, SQLITE_STATIC) != SQLITE_OK)) {
 			fprintf(stderr, "Failed to bind value: %s\n", sqlite3_errmsg(db));
 			return EXIT_FAILURE;
 		}
@@ -114,12 +115,12 @@ int main(int argc, char *argv[]) {
 		const char *query = "SELECT ROWID FROM corpus WHERE ident=?";
 
 		sqlite3_stmt *stmt;
-		if (sqlite3_prepare_v2(db, query, -1, &stmt, (const char **) 0) != SQLITE_OK) {
+		if (unlikely(sqlite3_prepare_v2(db, query, -1, &stmt, (const char **) 0) != SQLITE_OK)) {
 			fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
 			return EXIT_FAILURE;
 		}
 
-		if (sqlite3_bind_blob(stmt, 1, ident, sizeof ident, SQLITE_STATIC) != SQLITE_OK) {
+		if (unlikely(sqlite3_bind_blob(stmt, 1, ident, sizeof ident, SQLITE_STATIC) != SQLITE_OK)) {
 			fprintf(stderr, "Failed to bind value: %s\n", sqlite3_errmsg(db));
 			return EXIT_FAILURE;
 		}
@@ -144,7 +145,7 @@ int main(int argc, char *argv[]) {
 
 		/* Open BLOB */
 		sqlite3_blob *blob;
-		if (sqlite3_blob_open(db, (char *) 0, "corpus", "object", row, 0, &blob) != SQLITE_OK) {
+		if (unlikely(sqlite3_blob_open(db, (char *) 0, "corpus", "object", row, 0, &blob) != SQLITE_OK)) {
 			fprintf(stderr, "Cannot open BLOB: %s\n", sqlite3_errmsg(db));
 			return EXIT_FAILURE;
 		}
@@ -155,12 +156,12 @@ int main(int argc, char *argv[]) {
 #define BUFFILL (BUFSIZE > bytes - index ? bytes - index : BUFSIZE)
 
 		while (index < bytes) {
-			if (sqlite3_blob_read(blob, buf, BUFFILL, index) != SQLITE_OK) {
+			if (unlikely(sqlite3_blob_read(blob, buf, BUFFILL, index) != SQLITE_OK)) {
 				fprintf(stderr, "Cannot read from BLOB: %s\n", sqlite3_errmsg(db));
 				return EXIT_FAILURE;
 			}
 
-			if (write(1, buf, BUFFILL) != BUFFILL) {
+			if (unlikely(write(1, buf, BUFFILL) != BUFFILL)) {
 				perror("Write error");
 				return EXIT_FAILURE;
 			}
@@ -171,14 +172,14 @@ int main(int argc, char *argv[]) {
 
 	else if (!strcmp(argv[5], "deposit")) {
 		/* Write to temporary file */
-		if (chdir(argv[3])) {
+		if (unlikely(chdir(argv[3]))) {
 			perror("Failed to change to temporary directory");
 			return EXIT_FAILURE;
 		}
 
 		char template[] = "temp-XXXXXX";
 		int fd = mkstemp(template);
-		if (fd < 0) {
+		if (unlikely(fd < 0)) {
 			perror("Cannot create temporary file");
 			return EXIT_FAILURE;
 		}
@@ -189,34 +190,34 @@ int main(int argc, char *argv[]) {
 
 		do {
 			in = read(0, buf, BUFSIZE);
-			if (in < 0) {
+			if (unlikely(in < 0)) {
 				perror("Read error");
 				return EXIT_FAILURE;
 			}
 
 			out = write(fd, buf, in);
-			if (out < 0) {
+			if (unlikely(out < 0)) {
 				perror("Write error");
 				return EXIT_FAILURE;
 			}
 
-			else if (out < in) {
+			else if (unlikely(out < in)) {
 				fputs("Write error!\n", stderr);
 				return EXIT_FAILURE;
 			}
-		} while (in > 0);
+		} while (likely(in > 0));
 
 		/* Close standard input */
 		close(0);
 
 		struct stat st;
-		if (fstat(fd, &st)) {
+		if (unlikely(fstat(fd, &st))) {
 			perror("Cannot stat file");
 			return EXIT_FAILURE;
 		}
 
 		void *object = mmap((void *) 0, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
-		if (object == MAP_FAILED) {
+		if (unlikely(object == MAP_FAILED)) {
 			perror("Unable to mmap file");
 			return EXIT_FAILURE;
 		}
@@ -226,27 +227,27 @@ int main(int argc, char *argv[]) {
 		const char *query = "INSERT OR REPLACE INTO corpus (ident, object) VALUES(?, ?)";
 
 		sqlite3_stmt *stmt;
-		if (sqlite3_prepare_v2(db, query, -1, &stmt, (const char **) 0) != SQLITE_OK) {
+		if (unlikely(sqlite3_prepare_v2(db, query, -1, &stmt, (const char **) 0) != SQLITE_OK)) {
 			fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
 			munmap(object, st.st_size);
 			return EXIT_FAILURE;
 		}
 
-		if (sqlite3_bind_blob(stmt, 1, ident, sizeof ident, SQLITE_STATIC) != SQLITE_OK) {
+		if (unlikely(sqlite3_bind_blob(stmt, 1, ident, sizeof ident, SQLITE_STATIC) != SQLITE_OK)) {
 			fprintf(stderr, "Failed to bind value: %s\n", sqlite3_errmsg(db));
 			sqlite3_finalize(stmt);
 			munmap(object, st.st_size);
 			return EXIT_FAILURE;
 		}
 
-		if (sqlite3_bind_blob(stmt, 2, object, st.st_size, SQLITE_STATIC) != SQLITE_OK) {
+		if (unlikely(sqlite3_bind_blob(stmt, 2, object, st.st_size, SQLITE_STATIC) != SQLITE_OK)) {
 			fprintf(stderr, "Failed to bind value: %s\n", sqlite3_errmsg(db));
 			sqlite3_finalize(stmt);
 			munmap(object, st.st_size);
 			return EXIT_FAILURE;
 		}
 
-		if (sqlite3_step(stmt) != SQLITE_DONE) {
+		if (unlikely(sqlite3_step(stmt) != SQLITE_DONE)) {
 			fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
 			sqlite3_finalize(stmt);
 			munmap(object, st.st_size);
@@ -261,17 +262,17 @@ int main(int argc, char *argv[]) {
 		const char *query = "DELETE FROM corpus WHERE ident=?";
 
 		sqlite3_stmt *stmt;
-		if (sqlite3_prepare_v2(db, query, -1, &stmt, (const char **) 0) != SQLITE_OK) {
+		if (unlikely(sqlite3_prepare_v2(db, query, -1, &stmt, (const char **) 0) != SQLITE_OK)) {
 			fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
 			return EXIT_FAILURE;
 		}
 
-		if (sqlite3_bind_blob(stmt, 1, ident, sizeof ident, SQLITE_STATIC) != SQLITE_OK) {
+		if (unlikely(sqlite3_bind_blob(stmt, 1, ident, sizeof ident, SQLITE_STATIC) != SQLITE_OK)) {
 			fprintf(stderr, "Failed to bind value: %s\n", sqlite3_errmsg(db));
 			return EXIT_FAILURE;
 		}
 
-		if (sqlite3_step(stmt) != SQLITE_DONE) {
+		if (unlikely(sqlite3_step(stmt) != SQLITE_DONE)) {
 			fprintf(stderr, "Failed to execute statement: %s\n", sqlite3_errmsg(db));
 			sqlite3_finalize(stmt);
 			return EXIT_FAILURE;
