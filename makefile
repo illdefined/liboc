@@ -53,6 +53,9 @@ install: liboc.a liboc.so identity pthrough sqlite
 	echo -n pthrough >$(DESTDIR)$(PREFIX)share/opencorpus/0000000000000000000000000000000000000000000000000000000000000000/runtime
 	echo -n OpenCorpus.identity >$(DESTDIR)$(PREFIX)share/opencorpus/0000000000000000000000000000000000000000000000000000000000000000/trivial
 	
+	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus
+	install -m 755 despatch.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/despatch
+	
 	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus/runtime
 	install -m 755 pthrough $(DESTDIR)$(PREFIX)libexec/opencorpus/runtime/pthrough
 	
