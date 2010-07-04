@@ -17,7 +17,6 @@
 #include "egress.h"
 #include "endian.h"
 #include "expect.h"
-#include "canonical.h"
 #include "path.h"
 #include "string.h"
 #include "transform.h"
