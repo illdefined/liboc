@@ -43,12 +43,12 @@ else
 fi
 
 # Create cache directory
-if [ -w "/var/cache/opencorpus" ]
+if [ -w "/var/cache/opencorpus/runtime" ]
 then
-	cache="/var/cache/opencorpus/`basename $runtime`"
+	cache="/var/cache/opencorpus/runtime/`basename $runtime`"
 elif [ -n "$HOME" -a -d "$HOME/.opencorpus" ]
 then
-	cache="$HOME/.opencorpus/cache/`basename $runtime`"
+	cache="$HOME/.opencorpus/cache/runtime/`basename $runtime`"
 else
 	echo "Unable to create cache directory" >&2
 	exit 1
@@ -57,7 +57,7 @@ fi
 mkdir -p "$cache"
 
 # Create temp directory
-if [ -w "/var/tmp/opencorpus" ]
+if [ -w "/var/tmp/opencorpus/runtime" ]
 then
 	temp=`mktemp -d "/var/tmp/opencorpus/runtime/$1-XXXXXXXX"`
 else
