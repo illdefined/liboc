@@ -46,7 +46,7 @@ fi
 if [ -w "/var/cache/opencorpus/runtime" ]
 then
 	cache="/var/cache/opencorpus/runtime/`basename $runtime`"
-elif [ -n "$HOME" -a -d "$HOME/.opencorpus" ]
+elif [ -n "$HOME" ]
 then
 	cache="$HOME/.opencorpus/cache/runtime/`basename $runtime`"
 else
