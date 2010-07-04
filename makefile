@@ -24,7 +24,7 @@ LIBDIR   ?= lib
 INCDIR   ?= include
 
 hdr      := skein.h string.h storage.h transform.h trivial.h
-src      := canonical.c skein.c storage.c string.c transform.c trivial.c
+src      := skein.c storage.c string.c transform.c trivial.c
 obj      := $(src:.c=.o)
 tst      := rotate skein string
 
