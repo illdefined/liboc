@@ -66,6 +66,9 @@ fi
 
 mkdir -p "$temp"
 
+# Clean temp directory upon exit
+trap 'rm -f -r -- "$temp"' EXIT
+
 # Despatch transformation
 if [ -z "$NO_SANDBOX" ]
 then
@@ -78,6 +81,3 @@ then
 else
 	"$runtime" "$transform" "$cache" "$temp" "$2"
 fi
-
-# Clean temp directory
-rm -f -r -- "$temp"
