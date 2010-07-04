@@ -56,6 +56,7 @@ install: liboc.a liboc.so identity sqlite
 	install -m 755 despatch.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/despatch
 	install -m 755 retrieve.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/retrieve
 	install -m 755 deposit.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/deposit
+	install -m 755 efface.sh $(DESTDIR)$(PREFIX)libexec/opencorpus/efface
 	
 	install -d $(DESTDIR)$(PREFIX)libexec/opencorpus/storage
 	install -m 755 sqlite $(DESTDIR)$(PREFIX)libexec/opencorpus/storage/sqlite
