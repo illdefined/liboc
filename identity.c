@@ -1,3 +1,4 @@
+#include <limits.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,9 +6,7 @@
 
 #include "expect.h"
 
-#define BUFSIZE 4096
-
-static uint8_t buf[BUFSIZE];
+static uint8_t buf[PIPE_BUF];
 
 int main(int argc, char *argv[]) {
 	if (unlikely(argc != 5)) {
@@ -26,7 +25,7 @@ int main(int argc, char *argv[]) {
 	ssize_t in, out;
 
 	do {
-		in = read(0, buf, BUFSIZE);
+		in = read(0, buf, PIPE_BUF);
 		if (unlikely(in < 0)) {
 			perror("Read error");
 			return EXIT_FAILURE;
