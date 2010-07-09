@@ -21,7 +21,7 @@
 #include "string.h"
 #include "transform.h"
 
-#define DESPATCHER EXEC_BASE "/despatch"
+#define DESPATCHER EXEC_BASE "despatch"
 
 extern char **environ;
 
@@ -66,7 +66,7 @@ bool transform(pid_t *restrict pid, const uint8_t ident[restrict 32], int log, i
 	inthexs(narg, &num, sizeof num);
 
 	/* Set argument vector up */
-	const char *argv[] = { "despatch", DESPATCHER, idstr, narg, (char *) 0 };
+	const char *argv[] = { "despatch", idstr, narg, (char *) 0 };
 
 	/* Spawn sub‐process */
 	if (unlikely(posix_spawn(pid, DESPATCHER, &file_actions, (posix_spawnattr_t *) 0, (char **) argv, environ)))

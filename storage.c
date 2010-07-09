@@ -12,9 +12,9 @@
 #include "storage.h"
 #include "string.h"
 
-#define RETRIEVE EXEC_BASE "/retrieve"
-#define DEPOSIT  EXEC_BASE "/deposit"
-#define EFFACE   EXEC_BASE "/efface"
+#define RETRIEVE EXEC_BASE "retrieve"
+#define DEPOSIT  EXEC_BASE "deposit"
+#define EFFACE   EXEC_BASE "efface"
 
 extern char **environ;
 
