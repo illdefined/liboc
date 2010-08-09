@@ -8,7 +8,7 @@ case "$5" in
 	;;
 
 	"retrieve")
-		<"$1/$4"
+		cat "$1/$4"
 	;;
 
 	"deposit")
